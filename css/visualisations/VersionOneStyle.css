@@ -1,0 +1,156 @@
+
+/* The rotator for the name circle.
+ * If you change the site dimensions, you'll need to tinker with the top/left.
+ * height and width should be equal (square), but you can change it to resize the circle.
+ * -*-animation-duration will change the rotation speed.
+ */
+#name_rotator {
+    z-index: 3;
+    
+    height: 800px;
+    width: 800px;
+    
+    position: fixed;
+    top: 200px;
+    left: 200px;
+    
+    /* encourage GPU rendering */
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    /*-webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);*/
+    
+    /* animation for orbiting */
+    -webkit-animation-name: clockwise;
+    -webkit-animation-duration: 40000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: clockwise;
+    -moz-animation-duration: 40000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    
+    /* disable text selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+/* 
+ * Styling for each letter in the name rotator.
+ * I highly recommend that you stick to monospace fonts, otherwise the curving text might look wonky.
+ */
+#name_rotator span {
+    font: 26px Monaco, MonoSpace;
+    position: absolute;
+}
+
+/* The rotator for the description circle.
+ * height and width should be equal (square), but you can change it to resize the circle.
+ * -*-animation-duration will change the rotation speed.
+ */
+#description_rotator {
+    z-index: 3;
+    
+    height: 1000px;
+    width: 1000px;
+    
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    
+    /* encourage GPU rendering */
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    /*-webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);*/
+    
+    /* animation for orbiting */
+    -webkit-animation-name: anticlockwise;
+    -webkit-animation-duration: 40000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: anticlockwise;
+    -moz-animation-duration: 40000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    
+    /* disable text selection */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+/* 
+ * Styling for each letter in the description rotator.
+ * I highly recommend that you stick to monospace fonts, otherwise the curving text might look wonky.
+ */
+#description_rotator span {
+    font: 26px Monaco, MonoSpace;
+    position: absolute;
+}
+
+#image_rotator {
+    z-index: 3;
+    
+    height: 1200px;
+    width: 1200px;
+    
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    
+    /* encourage GPU rendering */
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    /*-webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);*/
+    
+    /* animation for orbiting */
+    -webkit-animation-name: clockwise;
+    -webkit-animation-duration: 40000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: clockwise;
+    -moz-animation-duration: 40000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+#image_rotator > div {
+    height: 150px;
+    width: 150px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover !important;
+}
