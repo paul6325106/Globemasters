@@ -18,19 +18,34 @@
     
     <script type="text/javascript">
         function initialise() {
+            var parameterString = window.location.search.substring(1);
+            var vars = parameterString.split("&");
+            for (var i = 0; i < vars.length; ++i) {
+                var pair = vars[i].split("=");
+                switch (pair[0]) {
+                    case "top":
+                        document.getElementById("body_container").style.top = pair[1];
+                        break;
+                    case "left":
+                        document.getElementById("body_container").style.left = pair[1];
+                        break;
+                }
+            }
             
             /* XXX declare your visualisation strategy here */
             var strategy = new VersionOneStrategy();
             
             var visualisation = new Visualisation();
             visualisation.setStrategy(strategy);
-            visualisation.onPageLoad(window.location.search.substring(1));
+            visualisation.onPageLoad(parameterString);
             initialiseCesium('globe', visualisation);
         }
     </script>
 </head>
 
 <body onload="initialise();">
+
+<div id="body_container">
 
 <div id="rotators_container"></div>
 
@@ -39,6 +54,8 @@
 <div id="globe_mask"></div>
 
 <div id="crosshair"></div>
+
+</div>
 
 </body>
 

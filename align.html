@@ -1,0 +1,89 @@
+<!-- TODO
+  -- scale transform (without mouse controls)
+  -- transform table and globe independently
+  -->
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Align - Globemasters</title>
+<style>
+    body {
+        background-color: black;
+    }
+    
+    #globe {
+        position: absolute;
+        height: 700;
+        width: 700;
+        background-color: blue;
+        -webkit-border-radius: 375px;
+        border-radius: 375px;
+        z-index: 2;
+    }
+    
+    #table {
+        position: absolute;
+        height: 1200;
+        width: 1200;
+        background-color: red;
+        -webkit-border-radius: 600px;
+        border-radius: 600px;
+        z-index: 1;
+    }
+</style>
+<script>
+window.onload = function() {
+    window.addEventListener("keydown", move, true);
+}
+
+function move(event) {
+    var ek = event.keyCode ? event.keyCode : event.which ? event.which : event.charCode;  
+    var globe = document.getElementById("globe");
+    var table = document.getElementById("table");
+    switch (ek) {
+        case 13: //enter
+            loadIndexPage();
+            return;
+        case 37: //left
+        case 65: //a
+            if (parseInt(table.style.left, 10) < 5) break;
+            globe.style.left = (parseInt(globe.style.left, 10)) - 5;
+            table.style.left = (parseInt(table.style.left, 10)) - 5;
+            break;
+        case 38: //up
+        case 87: //w
+            if (parseInt(table.style.top, 10) < 5) break;
+            globe.style.top  = (parseInt(globe.style.top, 10) ) - 5;
+            table.style.top  = (parseInt(table.style.top, 10) ) - 5;
+            break;
+        case 39: //right
+        case 68: //d
+            globe.style.left = (parseInt(globe.style.left, 10)) + 5;
+            table.style.left = (parseInt(table.style.left, 10)) + 5;
+            break;
+        case 40: //down
+        case 83: //s
+            globe.style.top  = (parseInt(globe.style.top, 10) ) + 5;
+            table.style.top  = (parseInt(table.style.top, 10) ) + 5;
+            break;
+    }
+}
+
+function loadIndexPage() {
+    var form = document.forms[0];
+    form["top"].value = document.getElementById("table").style.top;
+    form["left"].value = document.getElementById("table").style.left;
+    form.submit();
+}
+
+</script>
+</head>
+<body>
+<div id="globe" style="top: 250; left: 250;"></div>
+<div id="table" style="top: 0; left: 0;"></div>
+<form action="index.html" method="GET">
+<input type="hidden" name="top"  value="" />
+<input type="hidden" name="left"  value="" />
+</form>
+</body>
+</html>
