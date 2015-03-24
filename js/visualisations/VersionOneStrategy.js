@@ -4,8 +4,8 @@
 
 var VersionOneStrategy = function() {
     
-    this.onPageLoad = function(parameterString) {
-        var container = document.getElementById("rotators_container");
+    this.onPageLoad = function() {
+        var container = document.getElementById("table_container");
         
         var imageRotator = document.createElement("div");
         imageRotator.id = "image_rotator";
@@ -24,12 +24,12 @@ var VersionOneStrategy = function() {
         
         //set initial data
         orbitText("name_rotator", true, 50, "Australia");
-        loadFromFlickrAPI("image_rotator", "Australia", 12);
+        loadFromFlickr("image_rotator", "Australia", 12);
     },
     
-    this.onCountryDetection = function(name, iso_a2, iso_a3, iso_n3) {
+    this.onCountryDetection = function(name) {
         orbitText("name_rotator", true, 50, name);
-        loadFromFlickrAPI("image_rotator", name, 12);
+        loadFromFlickr("image_rotator", name, 12);
     }
     
 };
@@ -38,15 +38,15 @@ var VersionOneStrategy = function() {
  * Loads images from Flickr, sets them to the container and rotates them.
  * @post TODO
  * @param {String} containerId The id of the container to load images into.
- * @param {String} searchTerm The term to search Flickr for.
+ * @param {String} searchTag The term to search Flickr for.
  * @param {int} maxImages The maximum number of images to return from Flickr.
  */
-function loadFromFlickrAPI(containerId, searchTerm, maxImages) {
-    if (loadFromFlickrAPI.inProgress) {
+function loadFromFlickr(containerId, searchTag, maxImages) {
+    if (loadFromFlickr.inProgress) {
         //TODO store the most recent prevented call
         return;
     } else {
-        loadFromFlickrAPI.inProgress = true;
+        loadFromFlickr.inProgress = true;
     }
 
     var apiKey = "ff121a160c54684540cf8d53b25ae4f4";
@@ -55,7 +55,7 @@ function loadFromFlickrAPI(containerId, searchTerm, maxImages) {
     var query = "https://api.flickr.com/services/rest/"
             + "?method=flickr.photos.search"
             + "&api_key=" + apiKey
-            + "&tags=" + encodeURIComponent(searchTerm)
+            + "&tags=" + encodeURIComponent(searchTag)
             + "&per_page=" + maxImages
             + "&format=json"
             + "&nojsoncallback=1";
@@ -112,7 +112,7 @@ function loadFromFlickrAPI(containerId, searchTerm, maxImages) {
 
         //separate if test, in case of status 404
         if (xmlhttp.readyState == 4) {
-            loadFromFlickrAPI.inProgress = false;
+            loadFromFlickr.inProgress = false;
             //TODO perform the latest stored call
         }
     };

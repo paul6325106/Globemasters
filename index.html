@@ -38,7 +38,8 @@
             var visualisation = new Visualisation();
             visualisation.setStrategy(strategy);
             visualisation.onPageLoad(parameterString);
-            initialiseCesium('globe', visualisation);
+            initialiseCesium("globe", visualisation);
+            overrideGlobeMovement();
         }
     </script>
 </head>
@@ -47,11 +48,11 @@
 
 <div id="body_container">
 
-<div id="rotators_container"></div>
-
 <div id="globe"></div>
 
 <div id="globe_mask"></div>
+
+<div id="table_container"></div>
 
 <div id="table_mask"></div>
 

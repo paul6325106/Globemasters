@@ -29,7 +29,7 @@ function orbitText(containerId, outwards, maxChars, text) {
                     parseInt(window.getComputedStyle(container).width, 10)
                     ) / 2;
     
-    text += " "; //we always want a space between
+    text += "   "; //we always want a space between
     
     var output = "";
     var left = 0;
@@ -109,6 +109,33 @@ function orbitElements(containerId) {
         angle += increment;
     }
     
+}
+
+/**
+ * Moves a HTML element to a position orbiting a centre point.
+ * @param {String} elementId The id of the element.
+ * @param {Number} angle The angle in radians.
+ * @param {Number} radius The distance from the centre at which to place.
+ * @param {boolean} outwards true if the element should face outwards, false otherwise.
+ */
+function orbitSingleElement(elementId, angle, radius, outwards) {
+    //TODO programmatically get offset for centering
+    
+    outwards = (typeof outwards === "undefined") ? true : outwards;
+    
+    var element = document.getElementById(elementId);
+    
+    var left = (radius * Math.cos(angle) + radius);
+    var top = (radius * Math.sin(angle) + radius);
+    var rotation = (angle * 180 / Math.PI) + ((outwards) ? -90 : 90);
+    
+    element.style.position = "absolute";
+    element.style.left = left + "px";
+    element.style.top = top + "px";
+    element.style.webkitTransform = 'rotate(' + rotation + 'deg)';
+    element.style.transform = 'rotate(' + rotation + 'deg)';
+    element.style.webkitTransformOrigin = "center";
+    element.style.transformOrigin = "center";
 }
 
 /**

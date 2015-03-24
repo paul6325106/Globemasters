@@ -58,7 +58,7 @@ function initialiseCesium(container, visualisation) {
     
     //set default view to Australia, why not
     scene.camera.setView({
-        position : Cesium.Cartesian3.fromDegrees(135, -25, 12653000),
+        position : Cesium.Cartesian3.fromDegrees(135, -25, 10000000),
         heading : 0.0,
         pitch : -Cesium.Math.PI_OVER_TWO,
         roll : 0.0
@@ -76,6 +76,8 @@ function initialiseCesium(container, visualisation) {
             document.getElementById(container).offsetWidth / 2,
             document.getElementById(container).offsetHeight / 2
     );
+    
+    //TODO move mouse movement behaviour into new mouse movement listener
     
     callOnMouseStop(function() {
         countryPick(centrepoint, visualisation);
@@ -160,4 +162,71 @@ function countryPick(position, visualisation) {
             visualisation.onCountryDetection(newName, newIso_a2, newIso_a3, newIso_n3);
         }
     }
+}
+
+/**
+ * Overrides the mouse movement listener for globe movement, so that it plays
+ * nicely with PointerLock. Basically, this is trying to reimplement the default
+ * rotation controller using reading from mousemoveevent.movementX & Y and
+ * without having to hold down left click.
+ */
+function overrideGlobeMovement() {
+    var canvas = viewer.canvas;
+//    canvas.setAttribute('tabindex', '0'); // needed to put focus on the canvas
+//    canvas.onclick = function() {
+//        canvas.focus();
+//    };
+    
+    // disable the default event handlers
+    scene.screenSpaceCameraController.enableRotate = false;
+    scene.screenSpaceCameraController.enableTranslate = false;
+    scene.screenSpaceCameraController.enableZoom = false;
+    scene.screenSpaceCameraController.enableTilt = false;
+    scene.screenSpaceCameraController.enableLook = false;
+    
+    var flags = {
+        looking : false
+    };
+    
+    //doesn't start rotating until left click
+    document.getElementById("body_container").addEventListener("click", function() {
+        this.requestPointerLock = this.requestPointerLock ||
+                         this.mozRequestPointerLock ||
+                         this.webkitRequestPointerLock;
+        this.requestPointerLock();
+        flags.looking = true;
+        //TODO flags.looking = false if Pointer Lock disabled
+    }, false);
+    
+    var movementX = 0, movementY = 0;
+    var movementTimeout;
+    
+    this.addEventListener("mousemove", function(e) {
+        
+        movementX = e.movementX     ||
+                e.mozMovementX      ||
+                e.webkitMovementX   ||
+                0;
+        movementY = e.movementY     ||
+                e.mozMovementY      ||
+                e.webkitMovementY   ||
+                0;
+        
+        //timeout for detecting mouse stop, 0 if no movement during clock step
+        clearTimeout(movementTimeout);
+        movementTimeout = setTimeout(function(){
+            movementX = 0;
+            movementY = 0;
+        }, viewer.clock.multiplier);
+        
+    }, false);
+    
+    viewer.clock.onTick.addEventListener(function(clock) {
+        var camera = viewer.camera;
+        
+        if (flags.looking) {
+            camera.rotateRight(movementX * camera.defaultRotateAmount * 2);
+            camera.rotateUp(movementY * camera.defaultRotateAmount * 2);
+        }
+    });
 }
