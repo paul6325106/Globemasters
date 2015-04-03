@@ -5,6 +5,8 @@
 var VersionOneStrategy = function() {
     
     this.onPageLoad = function() {
+        importCSSJS("css/visualisations/VersionOneStyle.css");
+        
         var container = document.getElementById("table_container");
         
         var imageRotator = document.createElement("div");

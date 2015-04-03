@@ -6,6 +6,8 @@
 var ExampleStrategy = function() {
     
     this.onPageLoad = function(parameterString) {
+        importimportCSSJS("css/visualisations/example.css");
+        
         var vars = parameterString.split("&");
         for (var i = 0; i < vars.length; ++i) {
             var pair = vars[i].split("=");

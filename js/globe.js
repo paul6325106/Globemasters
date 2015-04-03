@@ -53,7 +53,7 @@ function initialiseCesium(container, visualisation) {
     //set background to transparent white
     scene.backgroundColor = new Cesium.Color(0.0, 0.0, 0.0, 0);
     
-    //by default, rotation is restricted to keep the globe oriented north. disable this.
+    //by default, rotation is constrained to keep the globe oriented north
     scene.camera.constrainedAxis = undefined;
     
     //set default view to Australia, why not
@@ -77,7 +77,7 @@ function initialiseCesium(container, visualisation) {
             document.getElementById(container).offsetHeight / 2
     );
     
-    //TODO move mouse movement behaviour into new mouse movement listener
+    //TODO move mouse movement behaviour into new mouse movement listener, maybe
     
     callOnMouseStop(function() {
         countryPick(centrepoint, visualisation);
@@ -199,7 +199,9 @@ function overrideGlobeMovement() {
     }, false);
     
     var movementX = 0, movementY = 0;
-    var movementTimeout;
+    var movementTimeout, mouseStopped = false;
+    
+    //TODO make the inertia nice
     
     this.addEventListener("mousemove", function(e) {
         
@@ -212,12 +214,11 @@ function overrideGlobeMovement() {
                 e.webkitMovementY   ||
                 0;
         
-        //timeout for detecting mouse stop, 0 if no movement during clock step
+        mouseStopped = false;
         clearTimeout(movementTimeout);
-        movementTimeout = setTimeout(function(){
-            movementX = 0;
-            movementY = 0;
-        }, viewer.clock.multiplier);
+        movementTimeout = setTimeout(function() {
+            mouseStopped = true;
+        }, 250);
         
     }, false);
     
@@ -225,6 +226,10 @@ function overrideGlobeMovement() {
         var camera = viewer.camera;
         
         if (flags.looking) {
+            if (mouseStopped) {
+                movementX *= 0.75;
+                movementY *= 0.75;
+            }
             camera.rotateRight(movementX * camera.defaultRotateAmount * 2);
             camera.rotateUp(movementY * camera.defaultRotateAmount * 2);
         }
