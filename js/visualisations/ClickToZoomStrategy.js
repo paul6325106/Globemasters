@@ -5,12 +5,27 @@
 
 var ClickToZoomStrategy = function() {
     
-    this.onPageLoad = function(parameterString) {
-        
+    var moveForwardAmount = 1500000;
+    var moveForwardLevel = 0;
+    var moveForwardMaxLevel = 5;
+    
+    var zoomHandler = function() {
+        if (moveForwardLevel === moveForwardMaxLevel) {
+            viewer.camera.moveBackward(moveForwardMaxLevel * moveForwardAmount);
+            moveForwardLevel = 0;
+        }
+        else {
+            viewer.camera.moveForward(moveForwardAmount);
+            moveForwardLevel++;
+        }
+    };
+    
+    this.onCesiumInstanceCreate = function(viewer) {
+        var screenSpaceHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        screenSpaceHandler.setInputAction(zoomHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     },
     
-    this.onCountryDetection = function(name, iso_a2, iso_a3, iso_n3) {
-        
-    }
+    this.onPageLoad = function() {},
+    this.onCountryDetect = function() {}
     
 };

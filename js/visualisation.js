@@ -29,14 +29,24 @@ Visualisation.prototype = {
     },
     
     /**
+     * To be called after the Cesium instance has been created.
+     * @param {Cesium.Viewer} viewer The base Cesium widget.
+     */
+    onCesiumInstanceCreate: function(viewer) {
+        this.strategy.onCesiumInstanceCreate(viewer);
+    },
+    
+    //TODO onPageLoadingFinish
+    
+    /**
      * To be called when a different country is detected.
      * @param {String} name The country's name.
      * @param {String} iso_a2 The country's ISO 3166 Alpha-2 code.
      * @param {String} iso_a3 The country's ISO 3166 Alpha-3 code.
      * @param {String} iso_n3 The country's ISO 3166 Alpha-4 code.
      */
-    onCountryDetection: function(name, iso_a2, iso_a3, iso_n3) {
-        this.strategy.onCountryDetection(name, iso_a2, iso_a3, iso_n3);
+    onCountryDetect: function(name, iso_a2, iso_a3, iso_n3) {
+        this.strategy.onCountryDetect(name, iso_a2, iso_a3, iso_n3);
     }
     
 };

@@ -31,7 +31,11 @@ var ExampleStrategy = function() {
         }
     },
     
-    this.onCountryDetection = function(name, iso_a2, iso_a3, iso_n3) {
+    this.onCesiumInstanceCreate = function(viewer) {
+        console.log("Cesium instance created.");
+    },
+    
+    this.onCountryDetect = function(name, iso_a2, iso_a3, iso_n3) {
         console.log("Welcome to " + name + "!");
     }
     

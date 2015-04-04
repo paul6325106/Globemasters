@@ -89,6 +89,10 @@ function initialiseCesium(container, visualisation) {
     });
     */
     
+    overrideGlobeMovement();
+    
+    visualisation.onCesiumInstanceCreate(viewer);
+    
 }
 
 function callOnMouseStop(func) {
@@ -159,7 +163,7 @@ function countryPick(position, visualisation) {
             countryPick.currentIso_a3 = newIso_a3;
             countryPick.currentIso_n3 = newIso_n3;
             
-            visualisation.onCountryDetection(newName, newIso_a2, newIso_a3, newIso_n3);
+            visualisation.onCountryDetect(newName, newIso_a2, newIso_a3, newIso_n3);
         }
     }
 }

@@ -37,7 +37,11 @@ var CompassStrategy = function() {
         orbitSingleElement("marker_south", Math.PI, 400);
     },
     
-    this.onCountryDetection = function() {
+    this.onCesiumInstanceCreate = function(viewer) {
+        
+    },
+    
+    this.onCountryDetect = function() {
         
         
 //        orbitSingleElement("marker_north", north, 400);
