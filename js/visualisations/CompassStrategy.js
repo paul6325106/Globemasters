@@ -31,10 +31,6 @@ var CompassStrategy = function() {
         markerSouth.innerHTML = "S";
         container.appendChild(markerSouth);
         
-        orbitSingleElement("marker_north", 3*Math.PI/2, 400);
-        orbitSingleElement("marker_east" , 0, 400);
-        orbitSingleElement("marker_west" , Math.PI/2, 400);
-        orbitSingleElement("marker_south", Math.PI, 400);
     },
     
     this.onCesiumInstanceCreate = function(viewer) {

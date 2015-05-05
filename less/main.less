@@ -1,0 +1,132 @@
+@top_displacement: 0px;
+@left_displacement: 0px;
+@inner_diameter: 750px; 
+@outer_diameter: 1200px;
+
+body {
+    background-color: black;
+}
+
+#body_container {
+    position: absolute;
+    top: @top_displacement;
+    left: @left_displacement;
+    overflow: hidden;
+    width: @outer_diameter;
+    height: @outer_diameter;
+}
+
+/**
+ * A cute little circled dot to mark the centrepoint.
+ */
+#crosshair {
+    z-index: 100;
+    height: 20px;
+    width: 20px;
+    position: absolute;
+    top: (@outer_diameter/2) - 10px; /* + @top_displacement; */
+    left: (@outer_diameter/2) - 10px; /* + @left_displacement; */
+    
+    background-image: radial-gradient(circle, white 1px, transparent 8px, white 10px, transparent 0);
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+/**
+ * The container for the globe.
+ * Height and width should be equal.
+ * Z-index should be lower than other divs.
+ */
+#globe {
+    z-index: 0;
+    height: @outer_diameter;
+    width: @outer_diameter;
+    position: absolute;
+    top: 0; /* @top_displacement; */
+    left: 0; /* @left_displacement; */
+}
+
+/**
+ * The mask to place over the globe.
+ * Dimensions and position should match globe container.
+ */
+#globe_mask {
+    z-index: 1;
+    height: @outer_diameter;
+    width: @outer_diameter;
+    position: absolute;
+    top: 0; /* @top_displacement; */
+    left: 0; /* @left_displacement; */
+    
+    background-image: radial-gradient(circle, transparent (@inner_diameter/2), white 0, white (@outer_diameter/2), black 0);
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+/**
+ * The mask that covers anything that would drift over the table edge.
+ * Dimensions and position should match globe container.
+ */
+#table_mask {
+    z-index: 100;
+    height: @outer_diameter;
+    width: @outer_diameter;
+    position: absolute;
+    top: 0; /* @top_displacement; */
+    left: 0; /* @left_displacement; */
+    
+    background-image: radial-gradient(circle, transparent (@outer_diameter/2), black 0);
+    
+    /* enable interaction with underlying elements (i.e., the globe) */
+    pointer-events: none;
+}
+
+@keyframes clockwise {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+
+@keyframes anticlockwise {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(-360deg);}
+}
+
+.rotate(@clockwise: true, @duration)
+        when (isnumber(@duration))
+        and (@clockwise) {
+    animation-name: clockwise;
+    animation-duration: @duration;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+.rotate(@clockwise: true, @duration)
+        when (isnumber(@duration)) 
+        and not (@clockwise) {
+    animation-name: anticlockwise;
+    animation-duration: @duration;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+/**
+ * With visually intensive elements, you may want to encourage GPU rendering.
+ * This is done by tricking the browser into 3D rendering.
+ */
+.encourage_GPU_rendering {
+    transform: translateZ(0);
+    /* transform: translate3d(0, 0, 0); */
+}
+
+/**
+ * Effectively allows the user to click underlying elements.
+ * Might want to disable later, like when Kinect integration is finished.
+ * You may want to disable this, rely on Pointer Lock, and use elementFromPoint
+ * to simulate left clicks on the table with Kinect depth data.
+ */
+.disable_user_interaction {
+    user-select: none;
+    pointer-events: none;
+}

@@ -1,0 +1,92 @@
+
+/* TODO dynamic top/left values derived from fields */
+/* TODO use fields from main to derive SV fields */
+
+@import (reference) "../main.less";
+
+@name_rotator_diameter: 800px;
+@name_font_size: 26pt;
+@description_rotator_diameter: 1000px;
+@description_font_size: 26pt;
+@image_rotator_diameter: 1200px;
+@image_size: 150px;
+
+/* The rotator for the name circle.
+ * If you change the site dimensions, you'll need to tinker with the top/left.
+ * height and width should be equal (square), but you can change it to resize the circle.
+ * -*-animation-duration will change the rotation speed.
+ */
+#name_rotator {
+    z-index: 3;
+    
+    height: @name_rotator_diameter;
+    width: @name_rotator_diameter;
+    
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    
+    .encourage_GPU_rendering;
+    .rotate(true, 40000ms);
+    .disable_user_interaction;
+}
+
+/* 
+ * Styling for each letter in the name rotator.
+ * I highly recommend that you stick to monospace fonts, otherwise the curving text might look wonky.
+ */
+#name_rotator span {
+    font: @name_font_size Monaco, MonoSpace;
+    position: absolute;
+}
+
+/* The rotator for the description circle.
+ * height and width should be equal (square), but you can change it to resize the circle.
+ * -*-animation-duration will change the rotation speed.
+ */
+#description_rotator {
+    z-index: 3;
+    
+    height: @description_rotator_diameter;
+    width: @description_rotator_diameter;
+    
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    
+    .encourage_GPU_rendering;
+    .rotate(not true, 40000ms);
+    .disable_user_interaction;
+}
+
+/* 
+ * Styling for each letter in the description rotator.
+ * I highly recommend that you stick to monospace fonts, otherwise the curving text might look wonky.
+ */
+#description_rotator span {
+    font: @description_font_size Monaco, MonoSpace;
+    position: absolute;
+}
+
+#image_rotator {
+    z-index: 3;
+    
+    height: @image_rotator_diameter;
+    width: @image_rotator_diameter;
+    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    .encourage_GPU_rendering;
+    .rotate(true, 40000ms);
+    .disable_user_interaction;
+}
+
+#image_rotator > div {
+    height: @image_size;
+    width: @image_size;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover !important;
+}
