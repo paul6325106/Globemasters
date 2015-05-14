@@ -43,7 +43,7 @@ Visualisation.prototype = {
      * @param {String} name The country's name.
      * @param {String} iso_a2 The country's ISO 3166 Alpha-2 code.
      * @param {String} iso_a3 The country's ISO 3166 Alpha-3 code.
-     * @param {String} iso_n3 The country's ISO 3166 Alpha-4 code.
+     * @param {String} iso_n3 The country's ISO 3166 Numeric-3 code.
      */
     onCountryDetect: function(name, iso_a2, iso_a3, iso_n3) {
         this.strategy.onCountryDetect(name, iso_a2, iso_a3, iso_n3);

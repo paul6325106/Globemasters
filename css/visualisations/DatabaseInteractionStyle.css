@@ -1,0 +1,43 @@
+.image_element div {
+  height: 150px;
+  width: 150px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover !important;
+}
+#inner_rotator {
+  z-index: 3;
+  height: 1000px;
+  width: 1000px;
+  position: absolute;
+  top: 200px;
+  left: 200px;
+  transform: translateZ(0);
+  /* transform: translate3d(0, 0, 0); */
+  animation-name: clockwise;
+  animation-duration: 40000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  user-select: none;
+  pointer-events: none;
+}
+#inner_rotator > span {
+  font: 26pt Monaco, MonoSpace;
+  position: absolute;
+}
+#outer_rotator {
+  z-index: 3;
+  height: 800px;
+  width: 800px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  transform: translateZ(0);
+  /* transform: translate3d(0, 0, 0); */
+  animation-name: clockwise;
+  animation-duration: 40000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  user-select: none;
+  pointer-events: none;
+}
