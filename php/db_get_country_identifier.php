@@ -1,18 +1,14 @@
 <?php
+/*
+ * Retrieves the datasetId from GET, then queries the GM database for and echos
+ * the type of data used to identify countries in the corresponding dataset.
+ */
+
 header('content-type: text/plain');
+require_once "db_handler.php";
 
-require "db_conf.php";
-
-$dataset_id = filter_input(INPUT_GET, "dataset_id", FILTER_SANITIZE_NUMBER_INT);
-
-$select_query = $db->prepare(
-        "SELECT country_identifier " .
-        "FROM datasets " .
-        "WHERE dataset_id = :dataset_id;"
-);
-
-$select_params = array(':dataset_id' => $dataset_id);
-$select_query -> execute($select_params);
-echo $select_query -> fetch();
+$datasetId = filter_input(INPUT_GET, "dataset_id", FILTER_SANITIZE_NUMBER_INT);
+$dbh = new Globemasters\DatabaseHandler();
+echo $dbh->getCountryIdentifier($datasetId);
 
 ?>
