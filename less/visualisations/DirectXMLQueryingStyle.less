@@ -1,0 +1,50 @@
+
+@import (reference) "../main.less";
+
+//TODO dynamic formatting with @inner_diameter and @outer_diameter
+
+@outer_rotator_diameter: 800px;
+@inner_rotator_diameter: 1000px;
+
+#inner_rotator {
+    z-index: 3;
+    
+    height: @inner_rotator_diameter;
+    width: @inner_rotator_diameter;
+    
+    position: absolute;
+    top: 200px;
+    left: 200px;
+    
+    .encourage_GPU_rendering;
+    .rotate(true, 40000ms);
+    .disable_user_interaction;
+    
+    > span {
+        font: 26pt Monaco, MonoSpace;
+        position: absolute;
+    }
+}
+
+#outer_rotator {
+    z-index: 3;
+    
+    height: @outer_rotator_diameter;
+    width: @outer_rotator_diameter;
+    
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    
+    .encourage_GPU_rendering;
+    .rotate(true, 40000ms);
+    .disable_user_interaction;
+    
+    > div {
+        height: 150px;
+        width: 150px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover !important;
+    }
+}
