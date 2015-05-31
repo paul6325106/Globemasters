@@ -3,7 +3,7 @@
  * down on the trackball) can be used to cycle through levels of zoom.
  */
 
-var ClickToZoomStrategy = function() {
+var DifferentMouseControlsStrategy = function() {
     
     var moveForwardAmount = 1500000;
     var moveForwardLevel = 0;
@@ -20,9 +20,17 @@ var ClickToZoomStrategy = function() {
         }
     };
     
+    //var twistHandler = function(delta) { //Cesium.ScreenSpaceEventType.WHEEL
+    var twistHandler = function(event) { //WheelEvent
+        viewer.camera.twistRight(event.deltaY * viewer.camera.defaultLookAmount);
+    };
+    
     this.onCesiumInstanceCreate = function(viewer) {
-        var screenSpaceHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
-        screenSpaceHandler.setInputAction(zoomHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        //var screenSpaceHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        //screenSpaceHandler.setInputAction(zoomHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        //screenSpaceHandler.setInputAction(twistHandler, Cesium.ScreenSpaceEventType.WHEEL);
+        document.addEventListener('click', zoomHandler);
+        document.addEventListener('wheel', twistHandler);
     },
     
     this.onPageLoad = function() {},
