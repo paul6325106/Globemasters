@@ -15,6 +15,10 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   /* transform: translate3d(0, 0, 0); */
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   -webkit-animation-name: clockwise;
           animation-name: clockwise;
   -webkit-animation-duration: 40000ms;
@@ -51,6 +55,10 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   /* transform: translate3d(0, 0, 0); */
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   -webkit-animation-name: anticlockwise;
           animation-name: anticlockwise;
   -webkit-animation-duration: 40000ms;
@@ -83,6 +91,10 @@
   -webkit-transform: translateZ(0);
           transform: translateZ(0);
   /* transform: translate3d(0, 0, 0); */
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
   -webkit-animation-name: clockwise;
           animation-name: clockwise;
   -webkit-animation-duration: 40000ms;

@@ -9,6 +9,7 @@ var scene;
  * Initialises the Cesium globe.
  * @post globe is initialised in container, but not necessarily finished loading.
  * @param {String} container the id of the container div
+ * @param {Visualisation} visualisation Visualisation instance with strategy set.
  */
 function initialiseCesium(container, visualisation) {
     
@@ -50,8 +51,8 @@ function initialiseCesium(container, visualisation) {
     scene.skyAtmosphere.destroy();
     scene.skyAtmosphere = undefined;
     
-    //set background to transparent white
-    scene.backgroundColor = new Cesium.Color(0.0, 0.0, 0.0, 0);
+    //set background to transparent
+    scene.backgroundColor = new Cesium.Color(1.0, 1.0, 1.0, 0);
     
     //by default, rotation is constrained to keep the globe oriented north
     scene.camera.constrainedAxis = undefined;
@@ -175,11 +176,13 @@ function countryPick(position, visualisation) {
  * without having to hold down left click.
  */
 function overrideGlobeMovement() {
-    var canvas = viewer.canvas;
-//    canvas.setAttribute('tabindex', '0'); // needed to put focus on the canvas
-//    canvas.onclick = function() {
-//        canvas.focus();
-//    };
+    var container = document.getElementById("body_container");
+    
+    var flags = {
+        looking : false
+    };
+    
+    var prevMovementX = 0, prevMovementY = 0;
     
     // disable the default event handlers
     scene.screenSpaceCameraController.enableRotate = false;
@@ -188,54 +191,45 @@ function overrideGlobeMovement() {
     scene.screenSpaceCameraController.enableTilt = false;
     scene.screenSpaceCameraController.enableLook = false;
     
-    var flags = {
-        looking : false
-    };
-    
-    //doesn't start rotating until left click
-    document.getElementById("body_container").addEventListener("click", function() {
-        this.requestPointerLock = this.requestPointerLock ||
-                         this.mozRequestPointerLock ||
-                         this.webkitRequestPointerLock;
+    var activatePointerLock = function() {
+        this.requestPointerLock = this.requestPointerLock
+                || this.mozRequestPointerLock
+                || this.webkitRequestPointerLock;
         this.requestPointerLock();
         flags.looking = true;
         //TODO flags.looking = false if Pointer Lock disabled
-    }, false);
+    };
     
-    var movementX = 0, movementY = 0;
-    var movementTimeout, mouseStopped = false;
-    
-    //TODO make the inertia nice
-    
-    this.addEventListener("mousemove", function(e) {
+    var mouseMoveListener = function(event) {
+        var movementX = event.movementX ||
+                event.mozMovementX      ||
+                event.webkitMovementX   ||
+                0,
+        movementY = event.movementY     ||
+                event.mozMovementY      ||
+                event.webkitMovementY   ||
+                0; 
         
-        movementX = e.movementX     ||
-                e.mozMovementX      ||
-                e.webkitMovementX   ||
-                0;
-        movementY = e.movementY     ||
-                e.mozMovementY      ||
-                e.webkitMovementY   ||
-                0;
+        event.preventDefault();
+        event.stopPropagation();
         
-        mouseStopped = false;
-        clearTimeout(movementTimeout);
-        movementTimeout = setTimeout(function() {
-            mouseStopped = true;
-        }, 250);
-        
-    }, false);
+        prevMovementX = (prevMovementX + movementX) / 2;
+        prevMovementY = (prevMovementY + movementY) / 2;
+    };
     
-    viewer.clock.onTick.addEventListener(function(clock) {
+    var applyMovement = function(clock) {
         var camera = viewer.camera;
         
         if (flags.looking) {
-            if (mouseStopped) {
-                movementX *= 0.75;
-                movementY *= 0.75;
-            }
-            camera.rotateRight(movementX * camera.defaultRotateAmount * 2);
-            camera.rotateUp(movementY * camera.defaultRotateAmount * 2);
+            camera.rotateRight(prevMovementX * camera.defaultRotateAmount * 2);
+            camera.rotateUp(prevMovementY * camera.defaultRotateAmount * 2);
+            prevMovementX *= 0.75;
+            prevMovementY *= 0.75;
         }
-    });
+    };
+    
+    //apply listener functions
+    container.addEventListener("click", activatePointerLock, false);
+    this.addEventListener("mousemove", mouseMoveListener, false);
+    viewer.clock.onTick.addEventListener(applyMovement);
 }

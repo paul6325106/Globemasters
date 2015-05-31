@@ -121,21 +121,9 @@ body {
  * With visually intensive elements, you may want to encourage GPU rendering.
  * This is done by tricking the browser into 3D rendering.
  */
-.encourage_GPU_rendering {
-  -webkit-transform: translateZ(0);
-          transform: translateZ(0)
-  /* transform: translate3d(0, 0, 0); */
-}
 /**
  * Effectively allows the user to click underlying elements.
  * Might want to disable later, like when Kinect integration is finished.
  * You may want to disable this, rely on Pointer Lock, and use elementFromPoint
  * to simulate left clicks on the table with Kinect depth data.
  */
-.disable_user_interaction {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  pointer-events: none;
-}
