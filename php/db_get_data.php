@@ -15,7 +15,7 @@ $country = filter_input(INPUT_GET, "country", FILTER_SANITIZE_STRING);
     
 $dbh = new Globemasters\DatabaseHandler();
 
-if ( isset($_GET("limit")) && is_int($_GET("limit")) ) {
+if ( isset($_GET["limit"]) && is_int($_GET["limit"]) ) {
     $limit = filter_input(INPUT_GET, "dataset_id", FILTER_SANITIZE_NUMBER_INT);
     $output = $dbh->getFieldData($datasetId, $fieldId, $country, $limit);
 }
