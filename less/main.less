@@ -1,7 +1,10 @@
+
+/*
 @top_displacement: 0px;
 @left_displacement: 0px;
-@inner_diameter: 750px; 
+@inner_diameter: 750px;
 @outer_diameter: 1200px;
+*/
 
 body {
     background-color: black;
@@ -29,8 +32,7 @@ body {
     
     background-image: radial-gradient(circle, white 1px, transparent 8px, white 10px, transparent 0);
     
-    /* enable interaction with underlying elements (i.e., the globe) */
-    pointer-events: none;
+    .disable_user_interaction;
 }
 
 /**
@@ -61,8 +63,7 @@ body {
     
     background-image: radial-gradient(circle, transparent (@inner_diameter/2), white 0, white (@outer_diameter/2), black 0);
     
-    /* enable interaction with underlying elements (i.e., the globe) */
-    pointer-events: none;
+    .disable_user_interaction;
 }
 
 /**
@@ -79,8 +80,7 @@ body {
     
     background-image: radial-gradient(circle, transparent (@outer_diameter/2), black 0);
     
-    /* enable interaction with underlying elements (i.e., the globe) */
-    pointer-events: none;
+    .disable_user_interaction;
 }
 
 @keyframes clockwise {
