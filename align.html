@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Align - Globemasters</title>
+    <meta name="author" content="Paul Wade">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <style media="screen" type="text/css">
+        #body_container {
+            z-index: 0;
+        }
+        
+        #globe {
+            z-index: 2;
+            background-color: red;
+            border-radius: 50%;
+        }
+        
+        #table {
+            z-index: 1;
+            background-color: blue;
+            border-radius: 50%;
+        }
+    </style>
+    <script type="text/javascript">
+        
+        window.addEventListener("keydown", function(event) {
+            event = event || window.event;
+
+            //transformable elements
+            var container = document.getElementById("body_container");
+            var globe= document.getElementById("globe");
+            var table = document.getElementById("table");
+
+            //base amount of pixels to transform parameters by
+            var amount = 10;
+
+            switch(event.keyCode) {
+                case 65: //a
+                    console.log("left");
+                    adjustLeft(container, -1*amount);
+                    break;
+
+                case 87: //w
+                    console.log("up");
+                    adjustTop(container, -1*amount);
+                    break;
+
+                case 68: //d
+                    console.log("right");
+                    adjustLeft(container, amount);
+                    break;
+
+                case 83: //s
+                    console.log("down");
+                    adjustTop(container, amount);
+                    break;
+
+                case 69: //e
+                    console.log("expand inner");
+                    if (globeRemainsSmallerThanTable(globe, table, amount)) {
+                        adjustLeft(globe, -1*amount);
+                        adjustTop(globe, -1*amount);
+                        adjustHeight(globe, 2*amount);
+                        adjustWidth(globe, 2*amount);
+                    }
+                    break;
+
+                case 81: //q
+                    console.log("contract inner");
+                    adjustHeight(globe, -2*amount);
+                    adjustWidth(globe, -2*amount);
+                    adjustLeft(globe, amount);
+                    adjustTop(globe, amount);
+                    break;
+
+                case 82: //r
+                    console.log("expand outer");
+                    adjustLeft(container, -1*amount);
+                    adjustTop(container, -1*amount);
+                    adjustHeight(container, 2*amount);
+                    adjustWidth(container, 2*amount);
+                    adjustHeight(table, 2*amount);
+                    adjustWidth(table, 2*amount);
+                    adjustLeft(globe, amount);
+                    adjustTop(globe, amount);
+                    break;
+
+                case 9: //tab
+                    console.log("contract outer");
+                    if (tableRemainsLargerThanGlobe(globe, table, -1*amount)) {
+                        adjustLeft(container, amount);
+                        adjustTop(container, amount);
+                        adjustHeight(table, -2*amount);
+                        adjustWidth(table, -2*amount);
+                        adjustHeight(container, -2*amount);
+                        adjustWidth(container, -2*amount);
+                        adjustLeft(globe, -1*amount);
+                        adjustTop(globe, -1*amount);
+                    }
+                    break;
+                    
+                case 13: //enter
+                    submit();
+                    break;
+            }
+        });
+
+        /**
+         * Adjusts the style.top value of an element.
+         * Won't reduce the value below 0.
+         * Will apply the property with a default value if it doesn't exist.
+         * @param {Element} element The DOM Element to modify.
+         * @param {int} delta An integer to adjust the value by.
+         */
+        function adjustTop(element, delta) {
+            if (!element.style.top) {
+                if (delta > 0) {
+                    element.style.top = delta + "px";
+                } else {
+                    element.style.top = "0px";
+                }
+            }
+            else {
+                var oldVal = parseInt(element.style.top, 10);
+                if (oldVal + delta < 0) {
+                    element.style.top = "0px";
+                } else {
+                    element.style.top = (oldVal + delta) + "px";
+                }
+            }
+        }
+
+        /**
+         * Adjusts the style.left value of an element.
+         * Won't reduce the value below 0.
+         * Will apply the property with a default value if it doesn't exist.
+         * @param {Element} element The DOM Element to modify.
+         * @param {int} delta An integer to adjust the value by.
+         */
+        function adjustLeft(element, delta) {
+            if (!element.style.left) {
+                if (delta > 0) {
+                    element.style.left = delta + "px";
+                } else {
+                    element.style.left = "0px";
+                }
+            }
+            else {
+                var oldVal = parseInt(element.style.left, 10);
+                if (oldVal + delta < 0) {
+                    element.style.left = "0px";
+                } else {
+                    element.style.left = (oldVal + delta) + "px";
+                }
+            }
+        }
+
+        /**
+         * Adjusts the style.height value of an element.
+         * Won't reduce the value below 0.
+         * Will apply the property with a default value if it doesn't exist.
+         * @param {Element} element The DOM Element to modify.
+         * @param {int} delta An integer to adjust the value by.
+         */
+        function adjustHeight(element, delta) {
+            if (!element.style.height) {
+                if (delta > 0) {
+                    element.style.height = delta + "px";
+                } else {
+                    element.style.height = "0px";
+                }
+            }
+            else {
+                var oldVal = parseInt(element.style.height, 10);
+                if (oldVal + delta < 0) {
+                    element.style.height = "0px";
+                } else {
+                    element.style.height = (oldVal + delta) + "px";
+                }
+            }
+        }
+
+        /**
+         * Adjusts the style.width value of an element.
+         * Won't reduce the value below 0.
+         * Will apply the property with a default value if it doesn't exist.
+         * @param {Element} element The DOM Element to modify.
+         * @param {int} delta An integer to adjust the value by.
+         */
+        function adjustWidth(element, delta) {
+            if (!element.style.width) {
+                if (delta > 0) {
+                    element.style.width = delta + "px";
+                } else {
+                    element.style.width = "0px";
+                }
+            }
+            else {
+                var oldVal = parseInt(element.style.width, 10);
+                if (oldVal + delta < 0) {
+                    element.style.width = "0px";
+                } else {
+                    element.style.width = (oldVal + delta) + "px";
+                }
+            }
+        }
+
+        /**
+         * Checks if the globe will remain smaller than the table after the size change.
+         * @pre deltaTable has not been applied yet.
+         * @param {Element} globe The globe element.
+         * @param {Element} table The table element.
+         * @param {int} deltaGlobe The change to the globe height/width value.
+         * @returns {Boolean} true if the globe will remain smaller than the table,
+         *                    false otherwise.
+         */
+        function globeRemainsSmallerThanTable(globe, table, deltaGlobe) {
+            var sizeGlobe = parseInt(globe.style.width, 10);
+            var sizeTable = parseInt(table.style.width, 10);
+            return sizeGlobe + deltaGlobe < sizeTable;
+        }
+
+        /**
+         * Checks if the table will remain larger than the globe after the size change.
+         * @pre deltaTable has not been applied yet.
+         * @param {Element} globe The globe element.
+         * @param {Element} table The table element.
+         * @param {int} deltaTable The change to the table height/width value.
+         * @returns {Boolean} true if the table will remain larger than the globe,
+         *                    false otherwise.
+         */
+        function tableRemainsLargerThanGlobe(globe, table, deltaTable) {
+            var sizeGlobe = parseInt(globe.style.width, 10);
+            var sizeTable = parseInt(table.style.width, 10);
+            return sizeGlobe < sizeTable + deltaTable;
+        }
+        
+        function submit() {
+            //get dom elements
+            var form = document.form_output;
+            var container = document.getElementById("body_container");
+            var globe = document.getElementById("globe");
+            var table = document.getElementById("table");
+            
+            //set dom style values to form
+            form.elements["top"].value = container.style.top;
+            form.elements["left"].value = container.style.left;
+            form.elements["inner"].value = globe.style.width;
+            form.elements["outer"].value = table.style.width;
+            
+            form.submit();
+        }
+        
+    </script>
+</head>
+
+<body>
+
+<div id="body_container" style="top: 0px; left: 0px; height: 1200px; width: 1200px;">
+
+<div id="globe" style="top: 225px; left: 225px; height: 750px; width: 750px;"></div>
+
+<div id="table" style="top: 0px; left: 0px; height: 1200px; width: 1200px;"></div>
+
+</div>
+    
+<form name="form_output" action="php/less_set_dimensions.php" method="get">
+<input type=hidden id="output_top" name="top" value="0"/>
+<input type=hidden id="output_left" name="left" value="0"/>
+<input type=hidden id="output_inner" name="inner" value="750"/>
+<input type=hidden id="output_outer" name="outer" value="1200"/>
+</form>
+
+</body>
+
+</html>
