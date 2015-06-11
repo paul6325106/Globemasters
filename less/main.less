@@ -1,34 +1,43 @@
 
 
-@top_displacement: 0px;
-@left_displacement: 0px;
-@inner_diameter: 750px;
-@outer_diameter: 1200px;
+@displacement_top: 200px;
+@displacement_left: 630px;
+@diameter_inner: 790px;
+@diameter_outer: 1460px;
+@perspective_depth: 1000px;
+@perspective_rotate: -30deg;
 
 
 body {
     background-color: black;
 }
 
+/**
+ * Top level container which defines the perspective depth.
+ */
 #perspective_parent {
-    perspective: 1000px;
+    /*perspective: @perspective_depth;
+    perspective-origin: 50% 50%;*/
     
     position: absolute;
-    top: @top_displacement;
-    left: @left_displacement;
-    width: @outer_diameter;
-    height: @outer_diameter;
+    top: @displacement_top;
+    left: @displacement_left;
+    width: @diameter_outer;
+    height: @diameter_outer;
 }
 
+/**
+ * Child of the perspective container, contains the rest of the page elements.
+ */
 #body_container {
-    transform: rotateX(30deg);
+    /*transform: rotateX(@perspective_rotate);*/
     overflow: hidden;
     
     position: absolute;
-    top: @top_displacement;
-    left: @left_displacement;
-    width: @outer_diameter;
-    height: @outer_diameter;
+    top: 0;
+    left: 0;
+    width: @diameter_outer;
+    height: @diameter_outer;
 }
 
 /**
@@ -39,8 +48,8 @@ body {
     height: 20px;
     width: 20px;
     position: absolute;
-    top: (@outer_diameter/2) - 10px; /* + @top_displacement; */
-    left: (@outer_diameter/2) - 10px; /* + @left_displacement; */
+    top: (@diameter_outer/2) - 10px; /* + @displacement_top; */
+    left: (@diameter_outer/2) - 10px; /* + @displacement_left; */
     
     background-image: radial-gradient(circle, white 1px, transparent 8px, white 10px, transparent 0);
     
@@ -54,11 +63,11 @@ body {
  */
 #globe {
     z-index: 0;
-    height: @outer_diameter;
-    width: @outer_diameter;
+    height: @diameter_outer;
+    width: @diameter_outer;
     position: absolute;
-    top: 0; /* @top_displacement; */
-    left: 0; /* @left_displacement; */
+    top: 0; /* @displacement_top; */
+    left: 0; /* @displacement_left; */
 }
 
 /**
@@ -67,13 +76,13 @@ body {
  */
 #globe_mask {
     z-index: 1;
-    height: @outer_diameter;
-    width: @outer_diameter;
+    height: @diameter_outer;
+    width: @diameter_outer;
     position: absolute;
-    top: 0; /* @top_displacement; */
-    left: 0; /* @left_displacement; */
+    top: 0; /* @displacement_top; */
+    left: 0; /* @displacement_left; */
     
-    background-image: radial-gradient(circle, transparent (@inner_diameter/2), white 0, white (@outer_diameter/2), black 0);
+    background-image: radial-gradient(circle, transparent (@diameter_inner/2), white 0, white (@diameter_outer/2), black 0);
     
     .disable_user_interaction;
 }
@@ -84,13 +93,13 @@ body {
  */
 #table_mask {
     z-index: 100;
-    height: @outer_diameter;
-    width: @outer_diameter;
+    height: @diameter_outer;
+    width: @diameter_outer;
     position: absolute;
-    top: 0; /* @top_displacement; */
-    left: 0; /* @left_displacement; */
+    top: 0; /* @displacement_top; */
+    left: 0; /* @displacement_left; */
     
-    background-image: radial-gradient(circle, transparent (@outer_diameter/2), black 0);
+    background-image: radial-gradient(circle, transparent (@diameter_outer/2), black 0);
     
     .disable_user_interaction;
 }

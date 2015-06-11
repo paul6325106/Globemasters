@@ -1,22 +1,29 @@
 body {
   background-color: black;
 }
+/**
+ * Top level container which defines the perspective depth.
+ */
 #perspective_parent {
-  perspective: 1000px;
+  /*perspective: @perspective_depth;
+    perspective-origin: 50% 50%;*/
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 1200px;
-  height: 1200px;
+  top: 200px;
+  left: 630px;
+  width: 1460px;
+  height: 1460px;
 }
+/**
+ * Child of the perspective container, contains the rest of the page elements.
+ */
 #body_container {
-  transform: rotateX(30deg);
+  /*transform: rotateX(@perspective_rotate);*/
   overflow: hidden;
   position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 1200px;
-  height: 1200px;
+  top: 0;
+  left: 0;
+  width: 1460px;
+  height: 1460px;
 }
 /**
  * A cute little circled dot to mark the centrepoint.
@@ -26,10 +33,10 @@ body {
   height: 20px;
   width: 20px;
   position: absolute;
-  top: 590px;
-  /* + @top_displacement; */
-  left: 590px;
-  /* + @left_displacement; */
+  top: 720px;
+  /* + @displacement_top; */
+  left: 720px;
+  /* + @displacement_left; */
   background-image: radial-gradient(circle, #ffffff 1px, transparent 8px, #ffffff 10px, transparent 0);
   user-select: none;
   pointer-events: none;
@@ -41,13 +48,13 @@ body {
  */
 #globe {
   z-index: 0;
-  height: 1200px;
-  width: 1200px;
+  height: 1460px;
+  width: 1460px;
   position: absolute;
   top: 0;
-  /* @top_displacement; */
+  /* @displacement_top; */
   left: 0;
-  /* @left_displacement; */
+  /* @displacement_left; */
 }
 /**
  * The mask to place over the globe.
@@ -55,14 +62,14 @@ body {
  */
 #globe_mask {
   z-index: 1;
-  height: 1200px;
-  width: 1200px;
+  height: 1460px;
+  width: 1460px;
   position: absolute;
   top: 0;
-  /* @top_displacement; */
+  /* @displacement_top; */
   left: 0;
-  /* @left_displacement; */
-  background-image: radial-gradient(circle, transparent 375px, #ffffff 0, #ffffff 600px, #000000 0);
+  /* @displacement_left; */
+  background-image: radial-gradient(circle, transparent 395px, #ffffff 0, #ffffff 730px, #000000 0);
   user-select: none;
   pointer-events: none;
 }
@@ -72,14 +79,14 @@ body {
  */
 #table_mask {
   z-index: 100;
-  height: 1200px;
-  width: 1200px;
+  height: 1460px;
+  width: 1460px;
   position: absolute;
   top: 0;
-  /* @top_displacement; */
+  /* @displacement_top; */
   left: 0;
-  /* @left_displacement; */
-  background-image: radial-gradient(circle, transparent 600px, #000000 0);
+  /* @displacement_left; */
+  background-image: radial-gradient(circle, transparent 730px, #000000 0);
   user-select: none;
   pointer-events: none;
 }

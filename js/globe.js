@@ -72,11 +72,8 @@ function initialiseCesium(container, visualisation) {
         fill: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.01)
     }));
     
-    //we will want to pick entities at the center of the window
-    var centrepoint = new Cesium.Cartesian2(
-            document.getElementById(container).offsetWidth / 2,
-            document.getElementById(container).offsetHeight / 2
-    );
+    var centrepoint = getCentrePoint();
+    console.log("centrepoint=" + centrepoint);
     
     //TODO move mouse movement behaviour into new mouse movement listener, maybe
     
@@ -94,6 +91,21 @@ function initialiseCesium(container, visualisation) {
     
     visualisation.onCesiumInstanceCreate(viewer);
     
+}
+
+//we will want to pick entities at the center of the window
+function getCentrePoint() {
+    var container = document.getElementById("body_container");
+    var parent = document.getElementById("perspective_parent");
+    var crosshair = document.getElementById("crosshair");
+    var box = crosshair.getBoundingClientRect();
+    
+    return new Cesium.Cartesian2(
+            //parent.offsetLeft + container.offsetWidth / 2,
+            box.left,
+            //parent.offsetTop + container.offsetHeight / 2
+            box.top
+    );
 }
 
 function callOnMouseStop(func) {
