@@ -73,7 +73,6 @@ function initialiseCesium(container, visualisation) {
     }));
     
     var centrepoint = getCentrePoint();
-    console.log("centrepoint=" + centrepoint);
     
     //TODO move mouse movement behaviour into new mouse movement listener, maybe
     
@@ -90,21 +89,17 @@ function initialiseCesium(container, visualisation) {
     overrideGlobeMovement();
     
     visualisation.onCesiumInstanceCreate(viewer);
-    
 }
 
-//we will want to pick entities at the center of the window
+/**
+ * Retreives the centre point of the table, to pick countries entities from.
+ * @returns {Cesium.Cartesian2} A 2D Cartesian point.
+ */
 function getCentrePoint() {
     var container = document.getElementById("body_container");
-    var parent = document.getElementById("perspective_parent");
-    var crosshair = document.getElementById("crosshair");
-    var box = crosshair.getBoundingClientRect();
-    
     return new Cesium.Cartesian2(
-            //parent.offsetLeft + container.offsetWidth / 2,
-            //parent.offsetTop + container.offsetHeight / 2
-            box.left,
-            box.top
+            container.offsetWidth / 2,
+            container.offsetHeight / 2
     );
 }
 
@@ -170,7 +165,7 @@ function countryPick(position, visualisation) {
         if (!countryPick.currentIso_a2 || newIso_a2 && newIso_a2 !== countryPick.currentIso_a2) {
             
             //log and store new country data
-            //console.log(newName + " " + newIso_a2 + " " + newIso_a3 + " " + newIso_n3);
+            console.log(newName + " " + newIso_a2 + " " + newIso_a3 + " " + newIso_n3);
             countryPick.currentName   = newName;
             countryPick.currentIso_a2 = newIso_a2;
             countryPick.currentIso_a3 = newIso_a3;

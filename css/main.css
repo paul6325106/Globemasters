@@ -17,7 +17,7 @@ body {
  * Child of the perspective container, contains the rest of the page elements.
  */
 #body_container {
-  transform: rotateX(-30deg);
+  transform: rotateX(-15deg);
   overflow: hidden;
   position: absolute;
   top: 0;
