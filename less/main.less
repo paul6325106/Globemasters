@@ -1,20 +1,32 @@
 
-/*
+
 @top_displacement: 0px;
 @left_displacement: 0px;
 @inner_diameter: 750px;
 @outer_diameter: 1200px;
-*/
+
 
 body {
     background-color: black;
 }
 
-#body_container {
+#perspective_parent {
+    perspective: 1000px;
+    
     position: absolute;
     top: @top_displacement;
     left: @left_displacement;
+    width: @outer_diameter;
+    height: @outer_diameter;
+}
+
+#body_container {
+    transform: rotateX(30deg);
     overflow: hidden;
+    
+    position: absolute;
+    top: @top_displacement;
+    left: @left_displacement;
     width: @outer_diameter;
     height: @outer_diameter;
 }
