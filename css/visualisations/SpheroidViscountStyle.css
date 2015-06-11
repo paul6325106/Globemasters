@@ -7,11 +7,11 @@
  */
 #name_rotator {
   z-index: 3;
-  height: 800px;
-  width: 800px;
+  height: 790px;
+  width: 790px;
   position: absolute;
-  top: 200px;
-  left: 200px;
+  top: 345px;
+  left: 345px;
   transform: translateZ(0);
   /* transform: translate3d(0, 0, 0); */
   transform-style: preserve-3d;
@@ -63,8 +63,8 @@
 }
 #image_rotator {
   z-index: 3;
-  height: 1200px;
-  width: 1200px;
+  height: 1460px;
+  width: 1460px;
   position: absolute;
   top: 0px;
   left: 0px;

@@ -4,11 +4,11 @@
 
 @import (reference) "../main.less";
 
-@name_rotator_diameter: 800px;
+@name_rotator_diameter: @diameter_inner;
 @name_font_size: 26pt;
 @description_rotator_diameter: 1000px;
 @description_font_size: 26pt;
-@image_rotator_diameter: 1200px;
+@image_rotator_diameter: @diameter_outer;
 @image_size: 150px;
 
 /* The rotator for the name circle.
@@ -23,8 +23,8 @@
     width: @name_rotator_diameter;
     
     position: absolute;
-    top: 200px;
-    left: 200px;
+    top: @diameter_inner/2 - 50px;
+    left: @diameter_inner/2 - 50px;
     
     .encourage_GPU_rendering;
     .rotate(true, 40000ms);

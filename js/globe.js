@@ -102,8 +102,8 @@ function getCentrePoint() {
     
     return new Cesium.Cartesian2(
             //parent.offsetLeft + container.offsetWidth / 2,
-            box.left,
             //parent.offsetTop + container.offsetHeight / 2
+            box.left,
             box.top
     );
 }

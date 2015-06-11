@@ -16,8 +16,8 @@ body {
  * Top level container which defines the perspective depth.
  */
 #perspective_parent {
-    /*perspective: @perspective_depth;
-    perspective-origin: 50% 50%;*/
+    perspective: @perspective_depth;
+    perspective-origin: 50% 50%;
     
     position: absolute;
     top: @displacement_top;
@@ -30,7 +30,7 @@ body {
  * Child of the perspective container, contains the rest of the page elements.
  */
 #body_container {
-    /*transform: rotateX(@perspective_rotate);*/
+    transform: rotateX(@perspective_rotate);
     overflow: hidden;
     
     position: absolute;
