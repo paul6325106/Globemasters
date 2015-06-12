@@ -29,7 +29,7 @@ catch(Exception $e){
 /**
  * Reads the GET parameters into an array. Keys are the corresponding LESS
  * parameters. Values have the "px" suffix, as is the appropriate CSS notation.
- * @pre "inner" and "outer" are set, "top" and "left" are optional.
+ * @pre "inner" and "outer" are set, "top", "left" and "rotate" are optional.
  * @return array An array with the GET values set.
  */
 function readDimensionsIntoArray() {
@@ -61,11 +61,26 @@ function readDimensionsIntoArray() {
         die("'outer' is not set.");
     }
     
+    if (isset($_GET["outer"])) {
+        $outer_diameter = filter_input(INPUT_GET, "outer", FILTER_SANITIZE_NUMBER_INT);
+    }
+    else {
+        die("'outer' is not set.");
+    }
+    
+    if (isset($_GET["rotate"])) {
+        $perspective_rotate = filter_input(INPUT_GET, "rotate", FILTER_SANITIZE_NUMBER_INT);
+    }
+    else {
+        $perspective_rotate = 0;
+    }
+    
     return array(
-        "top_displacement"  => $top_displacement  . "px",
-        "left_displacement" => $left_displacement . "px",
-        "inner_diameter"    => $inner_diameter    . "px",
-        "outer_diameter"    => $outer_diameter    . "px"
+        "displacement_top"  => $top_displacement    . "px",
+        "displacement_left" => $left_displacement   . "px",
+        "diameter_inner"    => $inner_diameter      . "px",
+        "diameter_outer"    => $outer_diameter      . "px",
+        "perspective_rotate"=> $perspective_rotate  . "deg"
     );
 }
 

@@ -4,30 +4,13 @@
     <meta charset="UTF-8">
     <title>Align - Globemasters</title>
     <meta name="author" content="Paul Wade">
-    <link rel="stylesheet" href="css/main.css" type="text/css">
-    <style media="screen" type="text/css">
-        #body_container {
-            z-index: 0;
-        }
-        
-        #globe {
-            z-index: 2;
-            background-color: red;
-            border-radius: 50%;
-        }
-        
-        #table {
-            z-index: 1;
-            background-color: blue;
-            border-radius: 50%;
-        }
-    </style>
     <script type="text/javascript">
         
         window.addEventListener("keydown", function(event) {
             event = event || window.event;
 
             //transformable elements
+            var parent = document.getElementById("perspective_parent");
             var container = document.getElementById("body_container");
             var globe= document.getElementById("globe");
             var table = document.getElementById("table");
@@ -36,27 +19,27 @@
             var amount = 10;
 
             switch(event.keyCode) {
-                case 65: //a
+                case 37: //left arrow
                     console.log("left");
-                    adjustLeft(container, -1*amount);
+                    adjustLeft(parent, -1*amount);
+                    break;
+
+                case 38: //up arrow
+                    console.log("up");
+                    adjustTop(parent, -1*amount);
+                    break;
+
+                case 39: //right arrow
+                    console.log("right");
+                    adjustLeft(parent, amount);
+                    break;
+
+                case 40: //down arrow
+                    console.log("down");
+                    adjustTop(parent, amount);
                     break;
 
                 case 87: //w
-                    console.log("up");
-                    adjustTop(container, -1*amount);
-                    break;
-
-                case 68: //d
-                    console.log("right");
-                    adjustLeft(container, amount);
-                    break;
-
-                case 83: //s
-                    console.log("down");
-                    adjustTop(container, amount);
-                    break;
-
-                case 69: //e
                     console.log("expand inner");
                     if (globeRemainsSmallerThanTable(globe, table, amount)) {
                         adjustLeft(globe, -1*amount);
@@ -74,10 +57,12 @@
                     adjustTop(globe, amount);
                     break;
 
-                case 82: //r
+                case 83: //s
                     console.log("expand outer");
-                    adjustLeft(container, -1*amount);
-                    adjustTop(container, -1*amount);
+                    adjustLeft(parent, -1*amount);
+                    adjustTop(parent, -1*amount);
+                    adjustHeight(parent, 2*amount);
+                    adjustWidth(parent, 2*amount);
                     adjustHeight(container, 2*amount);
                     adjustWidth(container, 2*amount);
                     adjustHeight(table, 2*amount);
@@ -86,18 +71,30 @@
                     adjustTop(globe, amount);
                     break;
 
-                case 9: //tab
+                case 65: //a
                     console.log("contract outer");
                     if (tableRemainsLargerThanGlobe(globe, table, -1*amount)) {
-                        adjustLeft(container, amount);
-                        adjustTop(container, amount);
+                        adjustLeft(parent, amount);
+                        adjustTop(parent, amount);
                         adjustHeight(table, -2*amount);
                         adjustWidth(table, -2*amount);
                         adjustHeight(container, -2*amount);
                         adjustWidth(container, -2*amount);
+                        adjustHeight(parent, -2*amount);
+                        adjustWidth(parent, -2*amount);
                         adjustLeft(globe, -1*amount);
                         adjustTop(globe, -1*amount);
                     }
+                    break;
+                    
+                case 88: //x
+                    console.log("increase angle");
+                    adjustAngle(container, amount);
+                    break;
+                    
+                case 90: //z
+                    console.log("decrease angle");
+                    adjustAngle(container, -1*amount);
                     break;
                     
                 case 13: //enter
@@ -115,19 +112,21 @@
          */
         function adjustTop(element, delta) {
             if (!element.style.top) {
-                if (delta > 0) {
+//                if (delta > 0) {
                     element.style.top = delta + "px";
-                } else {
-                    element.style.top = "0px";
-                }
+//                }
+//                else {
+//                    element.style.top = "0px";
+//                }
             }
             else {
                 var oldVal = parseInt(element.style.top, 10);
-                if (oldVal + delta < 0) {
-                    element.style.top = "0px";
-                } else {
+//                if (oldVal + delta < 0) {
+//                    element.style.top = "0px";
+//                }
+//                else {
                     element.style.top = (oldVal + delta) + "px";
-                }
+//                }
             }
         }
 
@@ -140,19 +139,21 @@
          */
         function adjustLeft(element, delta) {
             if (!element.style.left) {
-                if (delta > 0) {
+//                if (delta > 0) {
                     element.style.left = delta + "px";
-                } else {
-                    element.style.left = "0px";
-                }
+//                }
+//                else {
+//                    element.style.left = "0px";
+//                }
             }
             else {
                 var oldVal = parseInt(element.style.left, 10);
-                if (oldVal + delta < 0) {
-                    element.style.left = "0px";
-                } else {
+//                if (oldVal + delta < 0) {
+//                    element.style.left = "0px";
+//                }
+//                else {
                     element.style.left = (oldVal + delta) + "px";
-                }
+//                }
             }
         }
 
@@ -165,19 +166,21 @@
          */
         function adjustHeight(element, delta) {
             if (!element.style.height) {
-                if (delta > 0) {
+//                if (delta > 0) {
                     element.style.height = delta + "px";
-                } else {
-                    element.style.height = "0px";
-                }
+//                } 
+//                else {
+//                    element.style.height = "0px";
+//                }
             }
             else {
                 var oldVal = parseInt(element.style.height, 10);
-                if (oldVal + delta < 0) {
-                    element.style.height = "0px";
-                } else {
+//                if (oldVal + delta < 0) {
+//                    element.style.height = "0px";
+//                }
+//                else {
                     element.style.height = (oldVal + delta) + "px";
-                }
+//                }
             }
         }
 
@@ -190,18 +193,46 @@
          */
         function adjustWidth(element, delta) {
             if (!element.style.width) {
-                if (delta > 0) {
+//                if (delta > 0) {
                     element.style.width = delta + "px";
-                } else {
-                    element.style.width = "0px";
-                }
+//                }
+//                else {
+//                    element.style.width = "0px";
+//                }
             }
             else {
                 var oldVal = parseInt(element.style.width, 10);
-                if (oldVal + delta < 0) {
-                    element.style.width = "0px";
-                } else {
+//                if (oldVal + delta < 0) {
+//                    element.style.width = "0px";
+//                }
+//                else {
                     element.style.width = (oldVal + delta) + "px";
+//                }
+            }
+        }
+        
+        /**
+         * Adjusts the angle of a rotate value set to the element's
+         * style.transform property.
+         * Will not allow for angles above 90 or below -90 (so, no inverting);
+         * Will apply the property with a default value if it doesn't exist.
+         * @param {Element} element The DOM Element to modify.
+         * @param {int} delta An integer to adjust the value by.
+         */
+        function adjustAngle(element, delta) {
+            if (!element.style.transform) {
+                element.style.transform = "rotateX(0deg)";
+            }
+            else {
+                var oldVal = parseInt(
+                        element.style.transform.substring(
+                                element.style.transform.indexOf("(") + 1,
+                                element.style.transform.indexOf(")")
+                        ), 10
+                );
+                var newVal = oldVal + delta;
+                if (newVal >= -90 && newVal <= 90) {
+                    element.style.transform = "rotateX(" + newVal + "deg)";
                 }
             }
         }
@@ -236,40 +267,76 @@
             return sizeGlobe < sizeTable + deltaTable;
         }
         
+        /**
+         * Sends the generated values to the php script.
+         */
         function submit() {
             //get dom elements
             var form = document.form_output;
+            var parent = document.getElementById("perspective_parent");
             var container = document.getElementById("body_container");
             var globe = document.getElementById("globe");
             var table = document.getElementById("table");
             
             //set dom style values to form
-            form.elements["top"].value = container.style.top;
-            form.elements["left"].value = container.style.left;
+            form.elements["top"].value = parent.style.top;
+            form.elements["left"].value = parent.style.left;
             form.elements["inner"].value = globe.style.width;
             form.elements["outer"].value = table.style.width;
+            form.elements["rotate"].value = container.style.transform.substring(
+                    container.style.transform.indexOf("(") + 1,
+                    container.style.transform.indexOf(")")
+            );
             
             form.submit();
         }
         
     </script>
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <style media="screen" type="text/css">
+        #perspective_parent {
+            perspective: 1000px;
+            perspective-origin: 50% 50%;
+        }
+        
+        #body_container {
+            z-index: 0;
+        }
+        
+        #globe {
+            z-index: 2;
+            background-color: red;
+            border-radius: 50%;
+        }
+        
+        #table {
+            z-index: 1;
+            background-color: blue;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
 <body>
 
-<div id="body_container" style="top: 0px; left: 0px; height: 1200px; width: 1200px;">
+<div id="perspective_parent" style="top: 0px; left: 0px; height: 1200px; width: 1200px;">
+
+<div id="body_container" style="top: 0px; left: 0px; height: 1200px; width: 1200px; transform: rotateX(-15deg);">
 
 <div id="globe" style="top: 225px; left: 225px; height: 750px; width: 750px;"></div>
 
 <div id="table" style="top: 0px; left: 0px; height: 1200px; width: 1200px;"></div>
 
 </div>
-    
+
+</div>
+
 <form name="form_output" action="php/less_set_dimensions.php" method="get">
-<input type=hidden id="output_top" name="top" value="0"/>
-<input type=hidden id="output_left" name="left" value="0"/>
-<input type=hidden id="output_inner" name="inner" value="750"/>
-<input type=hidden id="output_outer" name="outer" value="1200"/>
+<input type=hidden id="output_top" name="top" value="0px"/>
+<input type=hidden id="output_left" name="left" value="0px"/>
+<input type=hidden id="output_inner" name="inner" value="750px"/>
+<input type=hidden id="output_outer" name="outer" value="1200px"/>
+<input type=hidden id="output_rotate" name="rotate" value="-15deg"/>
 </form>
 
 </body>

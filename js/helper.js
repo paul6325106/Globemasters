@@ -108,6 +108,9 @@ function orbitElements(containerId) {
     var container = document.getElementById(containerId);
     var satellites = container.children;
     
+    //if there's no satellites, there's nothing to do
+    if (satellites.length == 0) return;
+    
     //coordinates and orientation
     var left = 0;
     var top = 0;
