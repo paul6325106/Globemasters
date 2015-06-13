@@ -17,6 +17,7 @@ try {
     $parser = new Less_Parser($options);
     $parser->ModifyVars($dimensions);
     parseLessFolder($parser, "../less/");
+    header("location: ../index.html");
 }
 catch(Exception $e){
     die($e->getMessage());
