@@ -4,7 +4,7 @@
 
 @import (reference) "../main.less";
 
-@name_rotator_diameter: @diameter_inner;
+@name_rotator_diameter: 1.2*@diameter_inner;
 @name_font_size: 26pt;
 @description_rotator_diameter: 1000px;
 @description_font_size: 26pt;
@@ -23,8 +23,8 @@
     width: @name_rotator_diameter;
     
     position: absolute;
-    top: @diameter_inner/2 - 50px;
-    left: @diameter_inner/2 - 50px;
+    top: (@diameter_outer - @name_rotator_diameter)/2;
+    left: (@diameter_outer - @name_rotator_diameter)/2;
     
     .encourage_GPU_rendering;
     .rotate(true, 40000ms);
@@ -37,7 +37,6 @@
  */
 #name_rotator span {
     font: @name_font_size Monaco, MonoSpace;
-    position: absolute;
 }
 
 /* The rotator for the description circle.
@@ -51,8 +50,8 @@
     width: @description_rotator_diameter;
     
     position: absolute;
-    top: 100px;
-    left: 100px;
+    top: 0px;
+    left: 0px;
     
     .encourage_GPU_rendering;
     .rotate(not true, 40000ms);

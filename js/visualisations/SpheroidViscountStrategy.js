@@ -48,6 +48,8 @@ var SpheroidViscountStrategy = function() {
     
     /**
      * Loads images from Flickr, sets them to the container and rotates them.
+     * TODO I am confident that I can read the image size and programmatically
+     *      determine the maximum number of images to set.
      * @post TODO
      * @param {String} containerId The id of the container to load images into.
      * @param {String} searchTag The term to search Flickr for.

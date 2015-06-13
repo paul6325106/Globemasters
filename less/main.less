@@ -106,14 +106,50 @@ body {
     .disable_user_interaction;
 }
 
+//XXX including webkit prefixes until a proper automation process is sorted out
+
 @keyframes clockwise {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(360deg);}
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes anticlockwise {
-    from {transform:rotate(0deg);}
-    to {transform:rotate(-360deg);}
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+    }
+}
+
+@-webkit-keyframes clockwise {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes anticlockwise {
+    from {
+        transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+        -webkit-transform: rotate(-360deg);
+    }
 }
 
 .rotate(@clockwise: true, @duration)
@@ -123,6 +159,10 @@ body {
     animation-duration: @duration;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+    -webkit-animation-name: clockwise;
+    -webkit-animation-duration: @duration;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
 }
 
 .rotate(@clockwise: true, @duration)
@@ -132,6 +172,10 @@ body {
     animation-duration: @duration;
     animation-iteration-count: infinite;
     animation-timing-function: linear;
+    -webkit-animation-name: anticlockwise;
+    -webkit-animation-duration: @duration;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
 }
 
 /**

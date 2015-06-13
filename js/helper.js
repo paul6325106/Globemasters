@@ -39,6 +39,9 @@ function importCSSJS(filename, filetype) {
 
 /**
  * Sets text to a container, then sets it in a circle.
+ * The text is appears on the inside of the circle's circumference.
+ * TODO move the styling into Less where appropriate.
+ * TODO programmatically determine a reasonable default from CSS values.
  * @post: contents of container, if any exist, are replaced.
  *        If text is not defined, container innerHTMl is rotated instead.
  * @param {String} containerId The id of the container div.
@@ -48,47 +51,47 @@ function importCSSJS(filename, filetype) {
  * @param {String} text (optional) The string to set to the container.
  */
 function orbitText(containerId, outwards, maxChars, text) {
-    
-    //TODO: programmatically determine a reasonable default from CSS values
-    maxChars = (typeof maxChars === "undefined") ? 50 : maxChars;
-    
-    outwards = (typeof outwards === "undefined") ? true : outwards;
-    
     var container = document.getElementById(containerId);
     
+    maxChars = (typeof maxChars === "undefined") ? 50 : maxChars;
+    outwards = (typeof outwards === "undefined") ? true : outwards;
     text = (typeof text === "undefined") ? container.innerHTML : text;
-    
-    //TODO radius is slightly off - need to account for text height
-    var radius = Math.min(
-                    parseInt(window.getComputedStyle(container).height, 10),
-                    parseInt(window.getComputedStyle(container).width, 10)
-                    ) / 2;
-    
     text += "   "; //we always want a space between
     
+    var radius = parseInt(window.getComputedStyle(container).height, 10) / 2;
+    var repeats = Math.max(1, Math.floor(maxChars / text.length));
+    var angleIncrement = Math.PI * 2 / (repeats * text.length);
+    
+    var width = 20;
+    var top = (outwards) ? radius - width/2 : 0;
+    var left = radius - width/2;
+    
+    var transformOrigin = (outwards) ? "top" : "bottom";
+    var spanPlacement = (outwards) ? "bottom" : "top";
+    
     var output = "";
-    var left = 0;
-    var top = 0;
     var angle = 0;
     var rotation = 0;
     
-    var repeats = Math.max(1, Math.floor(maxChars / text.length));
-    var angleIncrement = Math.PI * 2 / (repeats * text.length);
-
     for (var n = 0; n < repeats; ++n) {
         for (var i = 0; i < text.length; ++i) {
-            left = (radius * Math.cos(angle) + radius);
-            top = (radius * Math.sin(angle) + radius);
-            rotation = (angle * 180 / Math.PI) + ((outwards) ? -90 : 90);
-            output += "<span style=\"\
-                    transform: rotate(" + rotation + "deg); \
-                    -webkit-transform: rotate(" + rotation + "deg); \
-                    transform-origin: top; \
-                    -webkit-transform-origin: top; \
-                    position: absolute; \
-                    top: " + top + "px; \
-                    left: " + left + "px; \
-                    \">" + text[i] + "</span>";
+            rotation = (angle * 180 / Math.PI);
+            output += "<div style=\""
+                    + " font: 26pt Monaco, MonoSpace;"
+                    + " transform: rotate(" + rotation + "deg);"
+                    + " -webkit-transform: rotate(" + rotation + "deg);"
+                    + " transform-origin: " + transformOrigin + " center;"
+                    + " -webkit-transform-origin: " + transformOrigin + " center;"
+                    + " height: " + radius + "px;"
+                    + " width: " + width + "px;"
+                    + " position: absolute;"
+                    + " top: " + top + "px;"
+                    + " left: " + left + "px;"
+                    + " \">"
+                    + "<span style=\"position: absolute; " + spanPlacement + ": 0;\">"
+                    + text[i]
+                    + "</span>"
+                    + "</div>";
             angle += (outwards) ? -angleIncrement : angleIncrement;
         }
     }
@@ -96,12 +99,12 @@ function orbitText(containerId, outwards, maxChars, text) {
     container.innerHTML = output;
 }
 
-
 /**
  * For a container of elements (such as <div> or <img> elements, for example),
  * the divs are moved into a circle and rotated so that each element is
- * orientated towards the center. The outer radius of the circle is the maximum
- * that will fit within the bounds of the container's height/width.
+ * orientated towards the center.
+ * The images appear on the inside of the circle's circumference.
+ * TODO move the styling into Less where appropriate.
  * @param {String} containerId The id of div containing each element to rotate.
  */
 function orbitElements(containerId) {
@@ -147,42 +150,6 @@ function orbitElements(containerId) {
         angle += increment;
     }
     
-}
-
-/**
- * Moves a HTML element to a position orbiting a centre point.
- * @param {String} elementId The id of the element.
- * @param {Number} angle The angle in radians.
- * @param {Number} radius The distance from the centre at which to place.
- * @param {boolean} outwards true if the element should face outwards, false otherwise.
- */
-function orbitSingleElement(elementId, angle, radius, outwards) {
-    //TODO programmatically get offset for centering
-    
-    outwards = (typeof outwards === "undefined") ? true : outwards;
-    
-    var element = document.getElementById(elementId);
-    
-    var left = (radius * Math.cos(angle) + radius);
-    var top = (radius * Math.sin(angle) + radius);
-    var rotation = (angle * 180 / Math.PI) + ((outwards) ? -90 : 90);
-    
-    element.style.position = "absolute";
-    element.style.left = left + "px";
-    element.style.top = top + "px";
-    element.style.webkitTransform = 'rotate(' + rotation + 'deg)';
-    element.style.transform = 'rotate(' + rotation + 'deg)';
-    element.style.webkitTransformOrigin = "center";
-    element.style.transformOrigin = "center";
-}
-
-/**
- * A simple function to remove the crosshair, if you don't like it.
- * Call this in your strategy instead of changing the index HTML.
- */
-function disableCrosshair() {
-    var crosshair = document.getElementById("crosshair");
-    crosshair.parentNode.removeChild(crosshair);
 }
 
 /**

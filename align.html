@@ -26,7 +26,6 @@
                     break;
 
                 case 38: //up arrow
-                    console.log("up");
                     adjustTop(parent, -1*shift);
                     break;
 
@@ -100,8 +99,12 @@
                     
                 case 13: //enter
                     submit();
-                    break;
+                    return;
+                    
+                default: return;
             }
+            
+            logCurrentParameters();
         });
 
         /**
@@ -266,6 +269,27 @@
             var sizeGlobe = parseInt(globe.style.width, 10);
             var sizeTable = parseInt(table.style.width, 10);
             return sizeGlobe < sizeTable + deltaTable;
+        }
+        
+        /**
+         * Prints the current parameters to console.
+         */
+        function logCurrentParameters() {
+            var parent = document.getElementById("perspective_parent");
+            var container = document.getElementById("body_container");
+            var globe = document.getElementById("globe");
+            var table = document.getElementById("table");
+            
+            console.log(
+                "top=" + parent.style.top + 
+                ",left=" + parent.style.left + 
+                ",inner=" + globe.style.width + 
+                ",outer=" + table.style.width + 
+                ",rotate=" + container.style.transform.substring(
+                    container.style.transform.indexOf("(") + 1,
+                    container.style.transform.indexOf(")")
+                )
+            );
         }
         
         /**
