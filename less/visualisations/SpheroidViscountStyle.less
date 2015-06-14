@@ -7,9 +7,16 @@
 
 @import (reference) "../main.less";
 
-@diameter_name_rotator: 1.2*@diameter_inner;
-@diameter_image_rotator: @diameter_outer;
-@image_size: (@diameter_outer - @diameter_name_rotator)/2;
+//you can use these to scale the name and images to the amount of display area
+@percent_gap_inside_name: 0.05;
+@percent_name: 0.25;
+@percent_image: 0.7;
+@percent_gap_after_image: 0;
+
+@diameter_name_inner: (1 + @percent_gap_inside_name)*@diameter_inner;
+@diameter_name_outer: @diameter_inner + (@diameter_outer - @diameter_inner) * @percent_name;
+@diameter_image_inner: @diameter_outer - (@diameter_outer - @diameter_inner) * @percent_image;
+@diameter_image_outer: (1 - @percent_gap_after_image)*@diameter_outer;
 
 /* The rotator for the name circle.
  * If you change the site dimensions, you'll need to tinker with the top/left.
@@ -19,44 +26,38 @@
 #name_rotator {
     z-index: 3;
     
-    height: @diameter_name_rotator;
-    width: @diameter_name_rotator;
+    height: @diameter_name_outer;
+    width: @diameter_name_outer;
     
     position: absolute;
-    top: (@diameter_outer - @diameter_name_rotator)/2;
-    left: (@diameter_outer - @diameter_name_rotator)/2;
+    top: (@diameter_outer - @diameter_name_outer) / 2;
+    left: (@diameter_outer - @diameter_name_outer) / 2;
     
     .encourage_GPU_rendering;
     .rotate(true, 40000ms);
     .disable_user_interaction;
-}
-
-/* 
- * Styling for each letter in the name rotator.
- * I highly recommend that you stick to monospace fonts, otherwise the curving text might look wonky.
- */
-#name_rotator span {
     
+    .orbit_text(true, @diameter_name_outer/2, @diameter_name_inner/2);
 }
 
 #image_rotator {
     z-index: 3;
     
-    height: @diameter_image_rotator;
-    width: @diameter_image_rotator;
+    height: @diameter_image_outer;
+    width: @diameter_image_outer;
     
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: (@diameter_outer - @diameter_image_outer) / 2;
+    left: (@diameter_outer - @diameter_image_outer) / 2;
     
     .encourage_GPU_rendering;
-    .rotate(true, 40000ms);
+    .rotate(false, 40000ms);
     .disable_user_interaction;
 }
 
 #image_rotator > div {
-    height: @image_size;
-    width: @image_size;
+    height: (@diameter_image_outer - @diameter_image_inner) / 2;
+    width: (@diameter_image_outer - @diameter_image_inner) / 2;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover !important;

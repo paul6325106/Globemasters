@@ -38,11 +38,12 @@ function importCSSJS(filename, filetype) {
 }
 
 /**
- * Sets text to a container, then sets it in a circle.
- * The text is appears on the inside of the circle's circumference.
- * TODO move the styling into Less where appropriate.
+ * Applies rotation to a container of letters such that the letters can be
+ * arranged in a circle. This method only applies rotation, no shifting. For the
+ * shifting to take effect, the .orbit_text() Less mixin should be applied to
+ * the container.
  * TODO programmatically determine a reasonable default from CSS values.
- * @post: contents of container, if any exist, are replaced.
+ * @post: If text is defined, contents of container, if any exist, are replaced.
  *        If text is not defined, container innerHTMl is rotated instead.
  * @param {String} containerId The id of the container div.
  * @param {boolean} outwards (optional) true if text faces outwards from globe,
@@ -59,18 +60,10 @@ function orbitText(containerId, outwards, maxChars, text) {
     text = (typeof text === "undefined") ? container.innerHTML : text;
     text += "   "; //we always want a space between
     
-    //calculate circle stuff
-    var radius = parseInt(window.getComputedStyle(container).height, 10) / 2;
-    var inner_radius = 475;
     var repeats = Math.max(1, Math.floor(maxChars / text.length));
-    var angleIncrement = Math.PI * 2 / (repeats * text.length);
     
-    //calculate css values
-    var width = 20;
-    var top = (outwards) ? radius : 0;
-    var left = radius - width/2;
-    var transformOrigin = (outwards) ? "top" : "bottom";
-    var spanPlacement = (outwards) ? "bottom" : "top";
+    var angleIncrement = Math.PI * 2 / (repeats * text.length);
+    if (outwards) angleIncrement *= -1;
     
     var output = "";
     var angle = 0;
@@ -80,26 +73,16 @@ function orbitText(containerId, outwards, maxChars, text) {
         for (var i = 0; i < text.length; ++i) {
             rotation = (angle * 180 / Math.PI);
             output += "<div style=\""
-                    + " font: " + ((radius - inner_radius)/2) + "px Monaco, MonoSpace;"
                     + " transform: rotate(" + rotation + "deg);"
                     + " -webkit-transform: rotate(" + rotation + "deg);"
-                    + " transform-origin: " + transformOrigin + " center;"
-                    + " -webkit-transform-origin: " + transformOrigin + " center;"
-                    + " width: " + width + "px;"
-                    + " height: " + radius + "px;"
-                    + " line-height: " + (radius - inner_radius) + "px;"
-                    + " position: absolute;"
-                    + " top: " + top + "px;"
-                    + " left: " + left + "px;"
-                    + " \">"
-                    + "<span style=\"position: absolute; " + spanPlacement + ": 0;\">"
+                    + "\">"
+                    + "<span>"
                     + text[i]
                     + "</span>"
                     + "</div>";
-            angle += (outwards) ? -angleIncrement : angleIncrement;
+            angle += angleIncrement;
         }
     }
-    console.log(radius - inner_radius);
     
     container.innerHTML = output;
 }

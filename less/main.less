@@ -1,10 +1,12 @@
 
+//commented out, so that they can be set with Less.php
+//if you need to manually generate, uncomment these
 /*
-@displacement_top: 200px;
-@displacement_left: 630px;
-@diameter_inner: 790px;
-@diameter_outer: 1460px;
-@perspective_rotate: -15deg;
+@displacement_top: 0px;
+@displacement_left: 0px;
+@diameter_inner: 750px;
+@diameter_outer: 1200px;
+@perspective_rotate: 0deg;
 */
 
 @perspective_depth: 1000px;
@@ -12,6 +14,8 @@
 
 body {
     background-color: black;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /**
@@ -198,4 +202,56 @@ body {
 .disable_user_interaction() {
     user-select: none;
     pointer-events: none;
+}
+
+/**
+ * To be used with the orbitText() JavaScript method. The JavaScript method 
+ * takes a div containing text and formats it such that each letter is rotated
+ * as if it were around a circle. This mixin will actually put the elements in
+ * a circle.
+ */
+.orbit_text(@outwards: true, @radius_orbit_outer, @radius_orbit_inner) {
+    @width: 20px;
+    
+    div {
+        font-size: (@radius_orbit_outer - @radius_orbit_inner)/2;
+        font-family: Monaco, MonoSpace;
+        font-weight: bold;
+        text-transform: uppercase;
+        width: @width;
+        height: @radius_orbit_outer;
+        line-height: @radius_orbit_outer - @radius_orbit_inner;
+        position: absolute;
+        left: @radius_orbit_outer - @width/2;
+
+        span {
+            position: absolute;
+        }
+    }
+}
+.orbit_text(@outwards: true, @radius_orbit_outer, @radius_orbit_inner)
+        when (@outwards) {
+    
+    div {
+        transform-origin: top center;
+        -webkit-transform-origin: top center;
+        top: @radius_orbit_outer;
+        
+        span {
+            bottom: 0;
+        }
+    }
+}
+.orbit_text(@outwards: true, @radius_orbit_outer, @radius_orbit_inner)
+        when not (@outwards) {
+    
+    div {
+        transform-origin: bottom center;
+        -webkit-transform-origin: bottom center;
+        top: 0px;
+        
+        span {
+            top: 0;
+        }
+    }
 }
