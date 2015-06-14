@@ -53,19 +53,22 @@ function importCSSJS(filename, filetype) {
 function orbitText(containerId, outwards, maxChars, text) {
     var container = document.getElementById(containerId);
     
+    //process function parameters
     maxChars = (typeof maxChars === "undefined") ? 50 : maxChars;
     outwards = (typeof outwards === "undefined") ? true : outwards;
     text = (typeof text === "undefined") ? container.innerHTML : text;
     text += "   "; //we always want a space between
     
+    //calculate circle stuff
     var radius = parseInt(window.getComputedStyle(container).height, 10) / 2;
+    var inner_radius = 475;
     var repeats = Math.max(1, Math.floor(maxChars / text.length));
     var angleIncrement = Math.PI * 2 / (repeats * text.length);
     
+    //calculate css values
     var width = 20;
-    var top = (outwards) ? radius - width/2 : 0;
+    var top = (outwards) ? radius : 0;
     var left = radius - width/2;
-    
     var transformOrigin = (outwards) ? "top" : "bottom";
     var spanPlacement = (outwards) ? "bottom" : "top";
     
@@ -77,13 +80,14 @@ function orbitText(containerId, outwards, maxChars, text) {
         for (var i = 0; i < text.length; ++i) {
             rotation = (angle * 180 / Math.PI);
             output += "<div style=\""
-                    + " font: 26pt Monaco, MonoSpace;"
+                    + " font: " + ((radius - inner_radius)/2) + "px Monaco, MonoSpace;"
                     + " transform: rotate(" + rotation + "deg);"
                     + " -webkit-transform: rotate(" + rotation + "deg);"
                     + " transform-origin: " + transformOrigin + " center;"
                     + " -webkit-transform-origin: " + transformOrigin + " center;"
-                    + " height: " + radius + "px;"
                     + " width: " + width + "px;"
+                    + " height: " + radius + "px;"
+                    + " line-height: " + (radius - inner_radius) + "px;"
                     + " position: absolute;"
                     + " top: " + top + "px;"
                     + " left: " + left + "px;"
@@ -95,6 +99,7 @@ function orbitText(containerId, outwards, maxChars, text) {
             angle += (outwards) ? -angleIncrement : angleIncrement;
         }
     }
+    console.log(radius - inner_radius);
     
     container.innerHTML = output;
 }

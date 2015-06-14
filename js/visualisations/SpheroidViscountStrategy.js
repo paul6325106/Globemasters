@@ -18,11 +18,6 @@ var SpheroidViscountStrategy = function() {
         imageRotator.className = "rotator";
         container.appendChild(imageRotator);
         
-        var descriptionRotator = document.createElement("div");
-        descriptionRotator.id = "description_rotator";
-        descriptionRotator.className = "rotator";
-        container.appendChild(descriptionRotator);
-        
         var nameRotator = document.createElement("div");
         nameRotator.id = "name_rotator";
         nameRotator.className = "rotator";

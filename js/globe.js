@@ -67,8 +67,9 @@ function initialiseCesium(container, visualisation) {
     
     //load the country border geojson
     //XXX scene.pick doesn't seem to work if the entities are completely transparent, so use 0.01
+    //XXX 50m dataset seems to cause memory problems sometimes, beware
     viewer.dataSources.add(Cesium.GeoJsonDataSource.load(
-            "json/ne-countries-50m_no-abbreviations.json", {
+            "json/ne-countries-110m_no-abbreviations.json", {
         stroke: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.75),
         fill: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.01)
     }));
