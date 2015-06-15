@@ -3,41 +3,6 @@
  */
 
 /**
- * Loads a JavaScript or CSS file. The intention is that imports are defined
- * inside the strategy, to simplify the imports on the index page in the case
- * that several strategies are loaded and one is selected on page load.
- * @param {String} filename Path to JS or CSS file, relative to index.
- * @param {String} filetype (Optional) The file type.
- * @returns {Boolean} True if a file was imported, false otherwise.
- */
-function importCSSJS(filename, filetype) {
-    if (typeof filetype === "undefined") {
-        filetype = filename.substr(filename.lastIndexOf('.') + 1);
-    }
-    filetype = filetype.toLowerCase();
-    
-    if (filetype == "js") {
-        var fileref=document.createElement('script');
-        fileref.setAttribute("type","text/javascript");
-        fileref.setAttribute("src", filename);
-    }
-    else if (filetype == "css") {
-        var fileref = document.createElement("link");
-        fileref.setAttribute("rel", "stylesheet");
-        fileref.setAttribute("type", "text/css");
-        fileref.setAttribute("href", filename);
-    }
-    
-    if (typeof fileref != "undefined") {
-        document.getElementsByTagName("head")[0].appendChild(fileref);
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-/**
  * Applies rotation to a container of letters such that the letters can be
  * arranged in a circle. This method only applies rotation, no shifting. For the
  * shifting to take effect, the .orbit_text() Less mixin should be applied to

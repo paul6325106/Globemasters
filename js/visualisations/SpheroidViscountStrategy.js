@@ -1,6 +1,6 @@
 /***
  * This visualisation is meant to be a recreation of the original Globemasters
- * visualisationm, and was developed as part of the web reimplementation
+ * visualisation, and was developed as part of the web reimplementation
  * prototype. The name of the prototype was 'SpheroidViscount', and that name
  * survives here.
  */
@@ -9,8 +9,6 @@ var SpheroidViscountStrategy = function() {
     
     
     this.onPageLoad = function() {
-        importCSSJS("css/visualisations/SpheroidViscountStyle.css");
-        
         var container = document.getElementById("table_container");
         
         var imageRotator = document.createElement("div");
@@ -65,10 +63,15 @@ var SpheroidViscountStrategy = function() {
         var query = "https://api.flickr.com/services/rest/"
                 + "?method=flickr.photos.search"
                 + "&api_key=" + apiKey
-                + "&tags=" + encodeURIComponent(searchTag)
+                + "&tags=" + encodeURIComponent(searchTag) //+ ",landmark"
+                + "&tag_mode=all"
+                + "&sort=interestingness-desc"
                 + "&per_page=" + maxImages
                 + "&format=json"
-                + "&nojsoncallback=1";
+                + "&nojsoncallback=1"
+                + "&safe_search=1"
+                + "&content_type=6"
+                ;
 
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {

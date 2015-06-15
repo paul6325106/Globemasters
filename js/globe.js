@@ -230,8 +230,8 @@ function overrideGlobeMovement() {
         var camera = viewer.camera;
         
         if (flags.looking) {
-            camera.rotateRight(prevMovementX * camera.defaultRotateAmount * 2);
-            camera.rotateUp(prevMovementY * camera.defaultRotateAmount * 2);
+            camera.rotateRight(prevMovementX * camera.defaultRotateAmount * -2);
+            camera.rotateUp(prevMovementY * camera.defaultRotateAmount * -2);
             prevMovementX *= 0.75;
             prevMovementY *= 0.75;
         }

@@ -317,7 +317,6 @@
         }
         
     </script>
-    <link rel="stylesheet" href="css/main.css" type="text/css">
     <style media="screen" type="text/css">
         
         html {
@@ -335,22 +334,26 @@
         }
         
         #perspective_parent {
+            position: absolute;
             perspective: 1000px;
             perspective-origin: 50% 50%;
         }
         
         #body_container {
             z-index: 0;
+            position: absolute;
         }
         
         #globe {
             z-index: 2;
+            position: absolute;
             background-color: red;
             border-radius: 50%;
         }
         
         #table {
             z-index: 1;
+            position: absolute;
             background-color: blue;
             border-radius: 50%;
         }
