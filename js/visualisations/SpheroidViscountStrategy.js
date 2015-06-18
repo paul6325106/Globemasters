@@ -35,7 +35,10 @@ var SpheroidViscountStrategy = function() {
     this.onCountryDetect = function(name) {
         orbitText("name_rotator", true, 50, name);
         loadFromFlickr("image_rotator", name, 12);
-    };
+    },
+    
+    
+    this.onGlobeImageDetect = function() {};
     
     
     

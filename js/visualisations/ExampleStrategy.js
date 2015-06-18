@@ -37,6 +37,10 @@ var ExampleStrategy = function() {
     
     this.onCountryDetect = function(name, iso_a2, iso_a3, iso_n3) {
         console.log("Welcome to " + name + "!");
+    },
+    
+    this.onGlobeImageDetect = function(properties) {
+        console.log("GlobeImage! " + properties);
     }
     
 };

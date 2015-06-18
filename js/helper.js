@@ -106,6 +106,43 @@ function orbitElements(containerId) {
 }
 
 /**
+ * Loads a GlobeImageCollection into the Cesium viewer.
+ * TODO check format of JSON file.
+ * TODO better JSON format - rectangles are finicky, switch to centre point and height + width, then convert here
+ * TODO make this consistent with other viewer data source adding methods
+ * @param {Cesium.Viewer} viewer
+ * @param {JSON} json
+ */
+function loadGlobeImageJSON(viewer, jsonPath) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", jsonPath, false);
+    xmlhttp.send(null);
+    var json = JSON.parse(xmlhttp.responseText);
+    
+    var globeImageFormatted, globeImage;
+    
+    for (var i = 0; i < json.GlobeImages.length; i++) {
+        globeImage = json.GlobeImages[i];
+        globeImageFormatted = {
+            rectangle : {
+                coordinates : Cesium.Rectangle.fromDegrees(
+                    globeImage.coordinates[0],
+                    globeImage.coordinates[1],
+                    globeImage.coordinates[2],
+                    globeImage.coordinates[3]
+                ),
+                material : new Cesium.ImageMaterialProperty({
+                    image : globeImage.imagepath
+                })
+            },
+            properties : globeImage.properties
+        };
+        console.log(globeImageFormatted);
+        viewer.entities.add(globeImageFormatted);
+    }
+}
+
+/**
  * Function throttle implementation in JS, with default parameters, using closures.
  * throttle(func,ms,context) returns a function that can't be called more than once every ms milliseconds.
  * context and ms parameters are optionnal.

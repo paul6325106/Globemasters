@@ -34,6 +34,7 @@ var DifferentMouseControlsStrategy = function() {
     },
     
     this.onPageLoad = function() {},
-    this.onCountryDetect = function() {}
+    this.onCountryDetect = function() {},
+    this.onGlobeImageDetect = function(properties) {}
     
 };

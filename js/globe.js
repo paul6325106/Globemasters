@@ -157,6 +157,9 @@ function countryPick(position, visualisation) {
         
         //read data from picked entity
         var entity = pickedObject.id;
+        console.log(entity.properties);
+        
+        /*
         var newName   = entity.properties.name;
         var newIso_a2 = entity.properties.iso_a2;
         var newIso_a3 = entity.properties.iso_a3;
@@ -167,7 +170,6 @@ function countryPick(position, visualisation) {
         if (!countryPick.currentIso_a2 || newIso_a2 && newIso_a2 !== countryPick.currentIso_a2) {
             
             //log and store new country data
-            console.log(newName + " " + newIso_a2 + " " + newIso_a3 + " " + newIso_n3);
             countryPick.currentName   = newName;
             countryPick.currentIso_a2 = newIso_a2;
             countryPick.currentIso_a3 = newIso_a3;
@@ -175,6 +177,7 @@ function countryPick(position, visualisation) {
             
             visualisation.onCountryDetect(newName, newIso_a2, newIso_a3, newIso_n3);
         }
+        */
     }
 }
 

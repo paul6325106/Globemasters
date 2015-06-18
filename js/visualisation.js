@@ -47,6 +47,16 @@ Visualisation.prototype = {
      */
     onCountryDetect: function(name, iso_a2, iso_a3, iso_n3) {
         this.strategy.onCountryDetect(name, iso_a2, iso_a3, iso_n3);
+    },
+    
+    /**
+     * To be called when a GlobeImage is detected. GlobeImages are just
+     * Cesium.Rectangle entities created with a specific JSON format.
+     * Refer to the report or the SeaMonsters example for the format.
+     * @param {JSON} properties The properties object for this GlobeImage.
+     */
+    onGlobeImageDetect: function(properties) {
+        this.strategy.onGlobeImageDetect(properties);
     }
     
 };

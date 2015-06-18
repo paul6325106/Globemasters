@@ -1,0 +1,44 @@
+{"type":"GlobeImageCollection",
+	"GlobeImages":[
+		{
+			"type":"GlobeImage",
+			"coordinates" : [-168.425843,15.940785,-146.698439,26.537821],
+			"imagepath" : "images/visualisation/SeaMonsters/Ulisse+Aldrovandi5.png",
+			"properties" : {
+				"tag" : "Sea Monster #1"
+			}
+		},
+		{
+			"type":"GlobeImage",
+			"coordinates" : [-135.027406,-48.472520,-113.300002,-40.356257],
+			"imagepath" : "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_1.png",
+			"properties" : {
+				"tag" : "Sea Monster #2"
+			}
+		},
+		{
+			"type":"GlobeImage",
+			"coordinates" : [67.472594,-38.289461,89.199998,-28.817341],
+			"imagepath" : "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_2.png",
+			"properties" : {
+				"tag" : "Sea Monster #3"
+			}
+		},
+		{
+			"type":"GlobeImage",
+			"coordinates" : [-24.636781,-39.655990,-2.909377,-30.345954],
+			"imagepath" : "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_3.png",
+			"properties" : {
+				"tag" : "Sea Monster #4"
+			}
+		},
+		{
+			"type":"GlobeImage",
+			"coordinates" : [-49.597718,24.827175,-27.870314,34.695015],
+			"imagepath" : "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_4.png",
+			"properties" : {
+				"tag" : "Sea Monster #5"
+			}
+		}
+	]
+}
