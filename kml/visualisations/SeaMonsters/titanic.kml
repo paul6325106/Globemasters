@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>titanic.kmz</name>
+	<Style id="sn_marina">
+		<IconStyle>
+			<scale>1.2</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/marina.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<ListStyle>
+		</ListStyle>
+	</Style>
+	<Style id="sh_marina">
+		<IconStyle>
+			<scale>1.4</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/shapes/marina.png</href>
+			</Icon>
+			<hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+		</IconStyle>
+		<ListStyle>
+		</ListStyle>
+	</Style>
+	<StyleMap id="msn_marina">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_marina</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_marina</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Placemark>
+		<name>Titanic Wreck</name>
+		<description>Turn on &quot;3D Buildings&quot;</description>
+		<LookAt>
+			<longitude>-49.94822196927015</longitude>
+			<latitude>41.72713826043066</latitude>
+			<altitude>0</altitude>
+			<range>129.2703139013038</range>
+			<tilt>70.1343177668107</tilt>
+			<heading>-11.95281441516278</heading>
+			<altitudeMode>relativeToGround</altitudeMode>
+			<gx:altitudeMode>relativeToSeaFloor</gx:altitudeMode>
+		</LookAt>
+		<styleUrl>#msn_marina</styleUrl>
+		<Point>
+			<coordinates>-49.948222,41.727138,0</coordinates>
+		</Point>
+	</Placemark>
+</Document>
+</kml>

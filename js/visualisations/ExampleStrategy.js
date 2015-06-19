@@ -6,29 +6,7 @@
 var ExampleStrategy = function() {
     
     this.onPageLoad = function(parameterString) {
-        importimportCSSJS("css/visualisations/example.css");
-        
-        var vars = parameterString.split("&");
-        for (var i = 0; i < vars.length; ++i) {
-            var pair = vars[i].split("=");
-            switch (pair[0]) {
-                case "height":
-                    console.log("height: " + pair[1]);
-                    break;
-                case "width":
-                    console.log("width: " + pair[1]);
-                    break;
-                case "top":
-                    console.log("top: " + pair[1]);
-                    break;
-                case "left":
-                    console.log("left: " + pair[1]);
-                    break;
-                default:
-                    //throw "Unrecognised parameter: " + pair[0];
-                    console.log("Unrecognised parameter: " + pair[0]);
-            }
-        }
+        console.log("GET parameters: " + parameterString);
     },
     
     this.onCesiumInstanceCreate = function(viewer) {

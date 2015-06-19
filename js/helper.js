@@ -3,6 +3,59 @@
  */
 
 /**
+ * 
+ * TODO refactor this method
+ * @param {type} datasetId
+ * @param {type} path
+ * @param {type} options
+ * @returns {undefined}
+ */
+function loadGlobeData(datasetId, path, options, hasImage) {
+    hasImage = (typeof hasImage === "undefined") ? false : hasImage;
+    
+    var ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(); 
+    switch (ext) {
+        
+        case "json":
+            viewer.dataSources.add(
+                    Cesium.GeoJsonDataSource.load(path, options)
+            ).then(function(dataSource) {
+                var id, entity;
+                for (var i = 0; i < dataSource.entities.values.length; ++i) {
+                    id = dataSource.entities.values[i].id;
+                    entity = dataSource.entities.getById(id);
+                    entity.addProperty("globemastersDatasetId");
+                    entity.globemastersDatasetId = datasetId;
+                    if (hasImage && entity.properties.hasOwnProperty("image")){
+                        entity.polygon.material = new Cesium.ImageMaterialProperty({
+                            image : entity.properties.image
+                        });
+                    }
+                }
+            });
+            return;
+            
+        case "kml":
+            viewer.dataSources.add(
+                    Cesium.KmlDataSource.load(path, options)
+            ).then(function(dataSource){
+                var id, entity;
+                for (var i = 0; i < dataSource.entities.values.length; ++i) {
+                    id = dataSource.entities.values[i].id;
+                    entity = dataSource.entities.getById(id);
+                    entity.addProperty("globemastersDatasetId");
+                    entity.globemastersDatasetId = datasetId;
+                }
+            });
+            return;
+        
+        default:
+            console.log("Unsupported data: " + path);
+            return
+    }
+}
+
+/**
  * Applies rotation to a container of letters such that the letters can be
  * arranged in a circle. This method only applies rotation, no shifting. For the
  * shifting to take effect, the .orbit_text() Less mixin should be applied to
@@ -113,7 +166,8 @@ function orbitElements(containerId) {
  * @param {Cesium.Viewer} viewer
  * @param {JSON} json
  */
-function loadGlobeImageJSON(viewer, jsonPath) {
+/*
+function loadGlobeImageJSON(viewer, jsonPath, datasetId) {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", jsonPath, false);
     xmlhttp.send(null);
@@ -135,12 +189,14 @@ function loadGlobeImageJSON(viewer, jsonPath) {
                     image : globeImage.imagepath
                 })
             },
-            properties : globeImage.properties
+            properties : globeImage.properties,
+            globemastersDatasetId : datasetId
         };
         console.log(globeImageFormatted);
         viewer.entities.add(globeImageFormatted);
     }
 }
+*/
 
 /**
  * Function throttle implementation in JS, with default parameters, using closures.

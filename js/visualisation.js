@@ -39,24 +39,13 @@ Visualisation.prototype = {
     //TODO onPageLoadingFinish
     
     /**
-     * To be called when a different country is detected.
-     * @param {String} name The country's name.
-     * @param {String} iso_a2 The country's ISO 3166 Alpha-2 code.
-     * @param {String} iso_a3 The country's ISO 3166 Alpha-3 code.
-     * @param {String} iso_n3 The country's ISO 3166 Alpha-4 code.
+     * To be called when an entity is picked from the centre point. The entity
+     * must have a globemastersDatasetId property. The easiest way to ensure
+     * this isto use the loadGlobeData() helper method.
+     * @param {Cesium.Entity} entity The picked entity.
      */
-    onCountryDetect: function(name, iso_a2, iso_a3, iso_n3) {
-        this.strategy.onCountryDetect(name, iso_a2, iso_a3, iso_n3);
-    },
-    
-    /**
-     * To be called when a GlobeImage is detected. GlobeImages are just
-     * Cesium.Rectangle entities created with a specific JSON format.
-     * Refer to the report or the SeaMonsters example for the format.
-     * @param {JSON} properties The properties object for this GlobeImage.
-     */
-    onGlobeImageDetect: function(properties) {
-        this.strategy.onGlobeImageDetect(properties);
+    onEntityPick: function(entity) {
+        this.strategy.onEntityPick(entity);
     }
     
 };
