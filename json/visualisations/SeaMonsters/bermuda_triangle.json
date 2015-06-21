@@ -1,0 +1,20 @@
+{ "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [[
+                    [-80.190262,25.774252],
+                    [-66.118292,18.466465],
+                    [-64.75737,32.321384],
+                    [-80.190262,25.774252]
+                ]]
+            },
+            "properties": {
+                "name" : "Bermuda Triangle",
+                "quality" : "spooky"
+            }
+        }
+    ]
+}

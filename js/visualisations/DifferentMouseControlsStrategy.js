@@ -1,6 +1,7 @@
 /***
  * A simple strategy to show how a single click (perhaps triggered by pressing
- * down on the trackball) can be used to cycle through levels of zoom.
+ * down on the trackball) could be used to cycle through levels of zoom, and the
+ * scroll wheel could be mapped to globe twisting for a full range of rotation.
  */
 
 var DifferentMouseControlsStrategy = function() {
@@ -26,7 +27,7 @@ var DifferentMouseControlsStrategy = function() {
     };
     
     this.onCesiumInstanceCreate = function(viewer) {
-        //var screenSpaceHandler = new Cesium.ScreenSpaceEventHandler(scene.canvas);
+        //var screenSpaceHandler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         //screenSpaceHandler.setInputAction(zoomHandler, Cesium.ScreenSpaceEventType.LEFT_CLICK);
         //screenSpaceHandler.setInputAction(twistHandler, Cesium.ScreenSpaceEventType.WHEEL);
         document.addEventListener('click', zoomHandler);
@@ -34,7 +35,6 @@ var DifferentMouseControlsStrategy = function() {
     },
     
     this.onPageLoad = function() {},
-    this.onCountryDetect = function() {},
-    this.onGlobeImageDetect = function(properties) {}
+    this.onMouseStop = function() {};
     
 };

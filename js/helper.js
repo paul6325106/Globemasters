@@ -3,55 +3,29 @@
  */
 
 /**
+ * All data entities are given a "globemasters_dataset_id" property for dataset
+ * identification. The globemasters_dataset_id value property is required if the
+ * entity is to be discovered and passed to the onMouseStop() strategy method.
+ *       
+ * @param {Object}           datasetId        The value to set to the
+ *                                            globemasters_dataset_id property.
+ *                           
+ * @param {EntityCollection} entities         The entities to format.
  * 
- * TODO refactor this method
- * @param {type} datasetId
- * @param {type} path
- * @param {type} options
- * @returns {undefined}
  */
-function loadGlobeData(datasetId, path, options, hasImage) {
-    hasImage = (typeof hasImage === "undefined") ? false : hasImage;
+function applyDatasetId(datasetId, entities) {
     
-    var ext = path.substr(path.lastIndexOf('.') + 1).toLowerCase(); 
-    switch (ext) {
+    //for each entity
+    var id, entity;
+    for (var i = 0; i < entities.values.length; ++i) {
         
-        case "json":
-            viewer.dataSources.add(
-                    Cesium.GeoJsonDataSource.load(path, options)
-            ).then(function(dataSource) {
-                var id, entity;
-                for (var i = 0; i < dataSource.entities.values.length; ++i) {
-                    id = dataSource.entities.values[i].id;
-                    entity = dataSource.entities.getById(id);
-                    entity.addProperty("globemastersDatasetId");
-                    entity.globemastersDatasetId = datasetId;
-                    if (hasImage && entity.properties.hasOwnProperty("image")){
-                        entity.polygon.material = new Cesium.ImageMaterialProperty({
-                            image : entity.properties.image
-                        });
-                    }
-                }
-            });
-            return;
-            
-        case "kml":
-            viewer.dataSources.add(
-                    Cesium.KmlDataSource.load(path, options)
-            ).then(function(dataSource){
-                var id, entity;
-                for (var i = 0; i < dataSource.entities.values.length; ++i) {
-                    id = dataSource.entities.values[i].id;
-                    entity = dataSource.entities.getById(id);
-                    entity.addProperty("globemastersDatasetId");
-                    entity.globemastersDatasetId = datasetId;
-                }
-            });
-            return;
+        //get a modifiable entity instance
+        id = entities.values[i].id;
+        entity = entities.getById(id);
         
-        default:
-            console.log("Unsupported data: " + path);
-            return
+        //add the globemasters_dataset_id property and value
+        entity.addProperty("globemasters_dataset_id");
+        entity.globemasters_dataset_id = datasetId;
     }
 }
 
@@ -60,14 +34,22 @@ function loadGlobeData(datasetId, path, options, hasImage) {
  * arranged in a circle. This method only applies rotation, no shifting. For the
  * shifting to take effect, the .orbit_text() Less mixin should be applied to
  * the container.
+ * 
  * TODO programmatically determine a reasonable default from CSS values.
- * @post: If text is defined, contents of container, if any exist, are replaced.
+ * @post: If no maxChars value is defined, the max defaults to 50.
+ *        If no outwards value is defined, the text is outwards by default.
+ *        If text is defined, contents of container, if any exist, are replaced.
  *        If text is not defined, container innerHTMl is rotated instead.
- * @param {String} containerId The id of the container div.
- * @param {boolean} outwards (optional) true if text faces outwards from globe,
- *                                      false otherwise.
- * @param {int} maxChars (optional) Maximum allowable number of characters.
- * @param {String} text (optional) The string to set to the container.
+ * 
+ * @param {String}  containerId The id of the container div.
+ * 
+ * @param {boolean} outwards    (Optional) true if the text is to face outwards
+ *                              from the globe, false otherwise.
+ *                                      
+ * @param {int}     maxChars    (Optional) max allowable number of characters.
+ * 
+ * @param {String}  text        (Optional) the string to set to the container,
+ *                              overwriting the current text in the container.
  */
 function orbitText(containerId, outwards, maxChars, text) {
     var container = document.getElementById(containerId);
@@ -111,6 +93,7 @@ function orbitText(containerId, outwards, maxChars, text) {
  * orientated towards the center.
  * The images appear on the inside of the circle's circumference.
  * TODO move the styling into Less where appropriate.
+ * 
  * @param {String} containerId The id of div containing each element to rotate.
  */
 function orbitElements(containerId) {
@@ -157,46 +140,6 @@ function orbitElements(containerId) {
     }
     
 }
-
-/**
- * Loads a GlobeImageCollection into the Cesium viewer.
- * TODO check format of JSON file.
- * TODO better JSON format - rectangles are finicky, switch to centre point and height + width, then convert here
- * TODO make this consistent with other viewer data source adding methods
- * @param {Cesium.Viewer} viewer
- * @param {JSON} json
- */
-/*
-function loadGlobeImageJSON(viewer, jsonPath, datasetId) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", jsonPath, false);
-    xmlhttp.send(null);
-    var json = JSON.parse(xmlhttp.responseText);
-    
-    var globeImageFormatted, globeImage;
-    
-    for (var i = 0; i < json.GlobeImages.length; i++) {
-        globeImage = json.GlobeImages[i];
-        globeImageFormatted = {
-            rectangle : {
-                coordinates : Cesium.Rectangle.fromDegrees(
-                    globeImage.coordinates[0],
-                    globeImage.coordinates[1],
-                    globeImage.coordinates[2],
-                    globeImage.coordinates[3]
-                ),
-                material : new Cesium.ImageMaterialProperty({
-                    image : globeImage.imagepath
-                })
-            },
-            properties : globeImage.properties,
-            globemastersDatasetId : datasetId
-        };
-        console.log(globeImageFormatted);
-        viewer.entities.add(globeImageFormatted);
-    }
-}
-*/
 
 /**
  * Function throttle implementation in JS, with default parameters, using closures.

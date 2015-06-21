@@ -14,6 +14,7 @@ Visualisation.prototype = {
     
     /**
      * Sets the visualisation strategy.
+     * 
      * @param {Strategy} strategy The visualisation strategy to be used.
      */
     setStrategy: function(strategy) {
@@ -22,6 +23,7 @@ Visualisation.prototype = {
     
     /**
      * To be called when the page is loaded.
+     * 
      * @param {String} parameterString The GET parameters set to the page
      */
     onPageLoad: function(parameterString) {
@@ -30,6 +32,7 @@ Visualisation.prototype = {
     
     /**
      * To be called after the Cesium instance has been created.
+     * 
      * @param {Cesium.Viewer} viewer The base Cesium widget.
      */
     onCesiumInstanceCreate: function(viewer) {
@@ -39,13 +42,20 @@ Visualisation.prototype = {
     //TODO onPageLoadingFinish
     
     /**
-     * To be called when an entity is picked from the centre point. The entity
-     * must have a globemastersDatasetId property. The easiest way to ensure
-     * this isto use the loadGlobeData() helper method.
-     * @param {Cesium.Entity} entity The picked entity.
+     * To be called when the mouse stops. The latitude and longitude at the
+     * centre point are passed on. The entities (obtained with
+     * Scene.drillPick()) are also passed on in key/value pairs, where the key
+     * is the globemasters_dataset_id. The globemasters_dataset_id value can be
+     * hardcoded to the dataset or set with the applyDatasetId() helper method.
+     * 
+     * @param {Number} latitude  The latitude at the centre point.
+     * 
+     * @param {Number} longitude The longitude at the centre point.
+     * 
+     * @param {JSON}   entities  Key/values pairs of the dataset id and entity.
      */
-    onEntityPick: function(entity) {
-        this.strategy.onEntityPick(entity);
+    onMouseStop: function(latitude, longitude, entities) {
+        this.strategy.onMouseStop(latitude, longitude, entities);
     }
     
 };

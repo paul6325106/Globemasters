@@ -14,7 +14,7 @@
             },
             "properties": {
                 "image": "images/visualisation/SeaMonsters/Ulisse+Aldrovandi5.png",
-                "tag" : "Sea Monster #1"
+                "tag" : "Sea Monster"
             }
         },
         {
@@ -31,7 +31,7 @@
             },
             "properties": {
                 "image": "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_1.png",
-                "tag" : "Sea Monster #2"
+                "tag" : "Sea Monster"
             }
         },
         {
@@ -48,7 +48,7 @@
             },
             "properties": {
                 "image": "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_2.png",
-                "tag" : "Sea Monster #3"
+                "tag" : "Sea Monster"
             }
         },
         {
@@ -65,7 +65,7 @@
             },
             "properties": {
                 "image": "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_3.png",
-                "tag" : "Sea Monster #4"
+                "tag" : "Sea Monster"
             }
         },
         {
@@ -82,7 +82,7 @@
             },
             "properties": {
                 "image": "images/visualisation/SeaMonsters/Ulisse+Aldrovandi8_4.png",
-                "tag" : "Sea Monster #5"
+                "tag" : "Sea Monster"
             }
         }
     ]

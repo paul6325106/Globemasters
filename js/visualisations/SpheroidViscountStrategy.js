@@ -7,38 +7,76 @@
 
 var SpheroidViscountStrategy = function() {
     
+    var DATASET_COUNTRIES = "0";
     
     this.onPageLoad = function() {
         var container = document.getElementById("table_container");
         
         var imageRotator = document.createElement("div");
         imageRotator.id = "image_rotator";
-        imageRotator.className = "rotator";
         container.appendChild(imageRotator);
         
         var nameRotator = document.createElement("div");
         nameRotator.id = "name_rotator";
-        nameRotator.className = "rotator";
         container.appendChild(nameRotator);
+    },
+    
+    
+    
+    this.onCesiumInstanceCreate = function(viewer) {
         
-        //set initial data
-        orbitText("name_rotator", true, 50, "Australia");
-        loadFromFlickr("image_rotator", "Australia", 12);
+        var path = "json/ne-countries-110m_no-abbreviations.json";
+        
+        var options = {
+            stroke: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.75),
+            fill: Cesium.Color.fromAlpha(Cesium.Color.WHITE, 0.01)
+        };
+        
+        var dataSource = Cesium.GeoJsonDataSource.load(path, options);
+        
+        viewer.dataSources.add(dataSource).then(
+            function(dataSource) {
+
+                //apply dataset id to entities
+                applyDatasetId(DATASET_COUNTRIES, dataSource.entities);
+
+                //set initial data
+                orbitText("name_rotator", true, 50, "Australia");
+                loadFromFlickr("image_rotator", "Australia", 12);
+            }
+        );
     },
     
     
     
-    this.onCesiumInstanceCreate = function() {},
-    
-    
-    
-    this.onCountryDetect = function(name) {
-        orbitText("name_rotator", true, 50, name);
-        loadFromFlickr("image_rotator", name, 12);
-    },
-    
-    
-    this.onGlobeImageDetect = function() {};
+    this.onMouseStop = function(latitude, longitude, entities) {
+        if (entities.hasOwnProperty(DATASET_COUNTRIES)) {
+            var entity = entities[DATASET_COUNTRIES];
+            var name   = entity.properties.name;
+            var iso_a2 = entity.properties.iso_a2;
+            var iso_a3 = entity.properties.iso_a3;
+            var iso_n3 = entity.properties.iso_n3;
+
+            console.log("MOUSE STOPPED:"
+                    + " " + latitude
+                    + " " + longitude
+                    + " " + name
+                    + " " + iso_a2
+                    + " " + iso_a3
+                    + " " + iso_n3
+            );
+
+            //store the last tag, so that we don't keep reloading the same call
+            if (this.onMouseStop.lastTag !== name) {
+                this.onMouseStop.lastTag = name;
+                
+                //set data to display
+                orbitText("name_rotator", true, 50, name);
+                loadFromFlickr("image_rotator", name, 12);
+            }
+        }
+    };
+    this.onMouseStop.lastTag = "";
     
     
     
@@ -46,7 +84,6 @@ var SpheroidViscountStrategy = function() {
      * Loads images from Flickr, sets them to the container and rotates them.
      * TODO I am confident that I can read the image size and programmatically
      *      determine the maximum number of images to set.
-     * @post TODO
      * @param {String} containerId The id of the container to load images into.
      * @param {String} searchTag The term to search Flickr for.
      * @param {int} maxImages The maximum number of images to retrieve from

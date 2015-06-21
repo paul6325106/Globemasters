@@ -1,0 +1,15 @@
+
+@import "../main.less";
+
+#text_display {
+    z-index: 99;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: @diameter_outer;
+    width: @diameter_outer;
+    .encourage_GPU_rendering;
+    .disable_user_interaction;
+    .rotate(true, 40000ms);
+    .orbit_text(true, @diameter_outer/2, @diameter_inner/2);
+}

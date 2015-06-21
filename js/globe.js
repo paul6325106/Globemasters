@@ -4,9 +4,12 @@
 
 /**
  * Initialises the Cesium globe.
+ * 
  * @post globe is initialised in container (but not necessarily finished
  *       loading).
- * @param {String} container The id of the container div.
+ *       
+ * @param {String}        container     The id of the container div.
+ * 
  * @param {Visualisation} visualisation A Visualisation instance with a valid 
  *                                      strategy set.
  */
@@ -66,7 +69,7 @@ function initialiseCesium(container, visualisation) {
     var centrepoint = getCentrePoint();
     
     callOnMouseStop(function() {
-        drillPick(centrepoint, visualisation);
+        readDataFromPoint(centrepoint, visualisation);
     });
     
     overrideGlobeMovement();
@@ -75,7 +78,8 @@ function initialiseCesium(container, visualisation) {
 }
 
 /**
- * Retreives the centre point of the table, to pick countries entities from.
+ * Retrieves the centre point of the table, to pick countries entities from.
+ * 
  * @returns {Cesium.Cartesian2} A 2D Cartesian point.
  */
 function getCentrePoint() {
@@ -105,36 +109,43 @@ function callOnMouseStop(func) {
  * for entities with a globemastersDatasetId property set. Other entities are
  * ignored. The visualisation.onEntityPick() method is only called when the
  * entity for a dataset changes (so that the same data is constantly reset).
- * @param {Cesium.Cartesian2} position window coordinates
- * @param {Visualisation} visualisation the visualisation context
+ * 
+ * @param {Cesium.Cartesian2} position      Window coordinates.
+ * 
+ * @param {Visualisation}     visualisation The visualisation context.
  */
-function drillPick(position, visualisation) {
-    var entity;
+function readDataFromPoint(position, visualisation) {
+    var entity, entities = {};
     
-    //drill baby drill
+    //for reading the coordinates
+    var ellipsoid = viewer.scene.globe.ellipsoid;
+    var cartesian = viewer.camera.pickEllipsoid(position, ellipsoid);
+    
+    //for reading the entities
     var pickedObjects = viewer.scene.drillPick(position);
-    if (Cesium.defined(pickedObjects)) {
+    
+    //if valid point on globe
+    if (cartesian && Cesium.defined(pickedObjects)) {
+        
+        //convert to cartographic
+        var cartographic = ellipsoid.cartesianToCartographic(cartesian);
+        var longitude = +Cesium.Math.toDegrees(cartographic.longitude);
+        var latitude = +Cesium.Math.toDegrees(cartographic.latitude);
+        
+        //for each entity
         for (var i = 0; i < pickedObjects.length; ++i) {
             entity = pickedObjects[i].id;
             
-            //if the entity has been given a globemastersDatasetId
-            if (entity.hasOwnProperty("globemastersDatasetId")) {
-                
-                //dict holds key value pairs of dataset id and entity id
-                //check if the dataset and entity are currently in the dict
-                if (drillPick.dict[entity.globemastersDatasetId] !== entity.id){
-                    
-                    //set the dict with the current entity for the dataset
-                    drillPick.dict[entity.globemastersDatasetId] = entity.id;
-                    
-                    //call the strategy method
-                    visualisation.onEntityPick(entity);
-                }
+            //if the entity has been given a globemasters_dataset_id, store
+            if (entity.hasOwnProperty("globemasters_dataset_id")) {
+                entities[entity.globemasters_dataset_id] = entity;
             }
         }
+        
+        //pass the data onto the strategy
+        visualisation.onMouseStop(latitude, longitude, entities);
     }
 }
-drillPick.dict = [];
 
 /**
  * Overrides the mouse movement listener for globe movement, so that it plays
