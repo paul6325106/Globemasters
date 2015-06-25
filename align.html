@@ -17,7 +17,9 @@
 
             //base amount of pixels to transform parameters by
             var shift = 5;
-            var degree = 1;
+            
+            //base amount of degrees to rotate by
+            var degree = 0.5;
 
             switch(event.keyCode) {
                 case 37: //left arrow
@@ -228,11 +230,11 @@
                 element.style.transform = "rotateX(0deg)";
             }
             else {
-                var oldVal = parseInt(
+                var oldVal = Number(
                         element.style.transform.substring(
                                 element.style.transform.indexOf("(") + 1,
-                                element.style.transform.indexOf(")")
-                        ), 10
+                                element.style.transform.indexOf("deg")
+                        )
                 );
                 var newVal = oldVal + delta;
                 if (newVal >= -90 && newVal <= 90) {

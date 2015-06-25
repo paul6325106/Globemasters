@@ -8,14 +8,14 @@
  * @post globe is initialised in container (but not necessarily finished
  *       loading).
  *       
- * @param {String}        container     The id of the container div.
+ * @param {String}        containerId   The id of the container div.
  * 
  * @param {Visualisation} visualisation A Visualisation instance with a valid 
  *                                      strategy set.
  */
-function initialiseCesium(container, visualisation) {
+function initialiseCesium(containerId, visualisation) {
     
-    viewer = new Cesium.Viewer(container, {
+    viewer = new Cesium.Viewer(containerId, {
         
         //disable all the widgets
         animation: false,
@@ -66,13 +66,15 @@ function initialiseCesium(container, visualisation) {
         roll : 0.0
     });
     
-    var centrepoint = getCentrePoint();
+    var container = document.getElementById(containerId);
+    
+    overrideGlobeMovement(container);
+    
+    var centrepoint = getCentrePoint(container);
     
     callOnMouseStop(function() {
         readDataFromPoint(centrepoint, visualisation);
     });
-    
-    overrideGlobeMovement();
     
     visualisation.onCesiumInstanceCreate(viewer);
 }
@@ -80,10 +82,11 @@ function initialiseCesium(container, visualisation) {
 /**
  * Retrieves the centre point of the table, to pick countries entities from.
  * 
+ * @param container The HTML element to find the centre point of.
+ * 
  * @returns {Cesium.Cartesian2} A 2D Cartesian point.
  */
-function getCentrePoint() {
-    var container = document.getElementById("body_container");
+function getCentrePoint(container) {
     return new Cesium.Cartesian2(
             container.offsetWidth / 2,
             container.offsetHeight / 2
@@ -152,9 +155,10 @@ function readDataFromPoint(position, visualisation) {
  * nicely with PointerLock. Basically, this is trying to reimplement the default
  * rotation controller using reading from mousemoveevent.movementX & Y and
  * without having to hold down left click.
+ * 
+ * @param container The HTML element to apply Pointer Lock to.
  */
-function overrideGlobeMovement() {
-    var container = document.getElementById("body_container");
+function overrideGlobeMovement(container) {
     
     var flags = {
         looking : false
@@ -170,11 +174,11 @@ function overrideGlobeMovement() {
     scene.screenSpaceCameraController.enableTilt = false;
     scene.screenSpaceCameraController.enableLook = false;
     
-    var activatePointerLock = function() {
-        this.requestPointerLock = this.requestPointerLock
-                || this.mozRequestPointerLock
-                || this.webkitRequestPointerLock;
-        this.requestPointerLock();
+    var activatePointerLock = function(container) {
+        container.requestPointerLock = container.requestPointerLock
+                || container.mozRequestPointerLock
+                || container.webkitRequestPointerLock;
+        container.requestPointerLock();
         flags.looking = true;
         //TODO flags.looking = false if Pointer Lock disabled
     };
@@ -208,7 +212,9 @@ function overrideGlobeMovement() {
     };
     
     //apply listener functions
-    container.addEventListener("click", activatePointerLock, false);
+    this.addEventListener("keydown", function() {
+        activatePointerLock(container);
+    }, false);
     this.addEventListener("mousemove", mouseMoveListener, false);
     viewer.clock.onTick.addEventListener(applyMovement);
 }
