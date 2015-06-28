@@ -24,10 +24,10 @@ Visualisation.prototype = {
     /**
      * To be called when the page is loaded.
      * 
-     * @param {String} parameterString The GET parameters set to the page
+     * @param {Element} container The container for table HTML elements.
      */
-    onPageLoad: function(parameterString) {
-        this.strategy.onPageLoad(parameterString);
+    onPageLoad: function(container) {
+        this.strategy.onPageLoad(container);
     },
     
     /**

@@ -4,7 +4,7 @@
  * This particular example puts monster in the oceans, amongst other things.
  */
 
-var SeaMonstersStrategy = function() {
+function SeaMonstersStrategy() {
     
     //these are to be json keys, so use strings
     var DATASET_SEAMONSTERS = "1";
@@ -12,18 +12,14 @@ var SeaMonstersStrategy = function() {
     var DATASET_TITANIC = "3";
     var DATASET_BERMUDATRIANGLE = "4";
     
-    this.onPageLoad = function() {
-        var container = document.getElementById("table_container");
-        
+    function onPageLoad(container) {
         //just a single container to show text output
         var textDisplay = document.createElement("div");
         textDisplay.id = "text_display";
         container.appendChild(textDisplay);
-        
-        orbitText("text_display", true, 25, "Australia");
-    },
+    }
     
-    this.onCesiumInstanceCreate = function(viewer) {
+    function onCesiumInstanceCreate(viewer) {
         
         //for demonstration purposes, we'll expand the code for adding a dataset
         
@@ -83,9 +79,9 @@ var SeaMonstersStrategy = function() {
             applyDatasetId(DATASET_TITANIC, dataSource.entities);
         });
         
-    },
+    }
     
-    this.onMouseStop = function(latitude, longitude, entities) {
+    function onMouseStop(latitude, longitude, entities) {
         var entity;
         
         //printing to console to demonstrate how the entity structure varies
@@ -152,7 +148,7 @@ var SeaMonstersStrategy = function() {
         }
         orbitText("text_display", true, 25, outputText);
         
-    };
+    }
     
     /**
      * For each entity with a valid image path in entity.properties.image, the
@@ -160,22 +156,29 @@ var SeaMonstersStrategy = function() {
      * @param {Cesium.EntityCollection} entities The collection of entities.
      */
     function applyImageMaterial(entities) {
-    
-    //for each entity
-    var id, entity;
-    for (var i = 0; i < entities.values.length; ++i) {
-        
-        //get a modifiable entity instance
-        id = entities.values[i].id;
-        entity = entities.getById(id);
-        
-        //apply image material if appropriate
-        if (entity.properties.hasOwnProperty("image")) {
-            entity.polygon.material = new Cesium.ImageMaterialProperty({
-                image : entity.properties.image
-            });
+
+        //for each entity
+        var id, entity;
+        for (var i = 0; i < entities.values.length; ++i) {
+
+            //get a modifiable entity instance
+            id = entities.values[i].id;
+            entity = entities.getById(id);
+
+            //apply image material if appropriate
+            if (entity.properties.hasOwnProperty("image")) {
+                entity.polygon.material = new Cesium.ImageMaterialProperty({
+                    image : entity.properties.image
+                });
+            }
         }
     }
-}
+    
+    //if not using this.method syntax, need to expose strategy 
+    return {
+        onPageLoad: onPageLoad,
+        onCesiumInstanceCreate: onCesiumInstanceCreate,
+        onMouseStop: onMouseStop
+    };
     
 };

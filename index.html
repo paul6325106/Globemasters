@@ -24,7 +24,7 @@
             
             var visualisation = new Visualisation();
             visualisation.setStrategy(strategy);
-            visualisation.onPageLoad(window.location.search.substring(1));
+            visualisation.onPageLoad(document.getElementById("table_container"));
             initialiseCesium("globe", visualisation);
         }
     </script>

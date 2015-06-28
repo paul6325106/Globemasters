@@ -4,7 +4,7 @@
 
 var EmptyStrategy = function() {
     
-    this.onPageLoad = function(parameterString) {
+    this.onPageLoad = function(container) {
         
     },
     

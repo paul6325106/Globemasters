@@ -3,15 +3,17 @@
  * visualisation, and was developed as part of the web reimplementation
  * prototype. The name of the prototype was 'SpheroidViscount', and that name
  * survives here.
+ * 
+ * On selection of a country, the name of the country and images from Flickr are
+ * displayed around the annulus.
  */
 
-var SpheroidViscountStrategy = function() {
+function SpheroidViscountStrategy() {
     
     var DATASET_COUNTRIES = "0";
     
-    this.onPageLoad = function() {
-        var container = document.getElementById("table_container");
-        
+    
+    function onPageLoad(container) {
         var imageRotator = document.createElement("div");
         imageRotator.id = "image_rotator";
         container.appendChild(imageRotator);
@@ -19,11 +21,10 @@ var SpheroidViscountStrategy = function() {
         var nameRotator = document.createElement("div");
         nameRotator.id = "name_rotator";
         container.appendChild(nameRotator);
-    },
+    }
     
     
-    
-    this.onCesiumInstanceCreate = function(viewer) {
+    function onCesiumInstanceCreate(viewer) {
         
         var path = "json/ne-countries-110m_no-abbreviations.json";
         
@@ -45,11 +46,10 @@ var SpheroidViscountStrategy = function() {
                 loadFromFlickr("image_rotator", "Australia", 12);
             }
         );
-    },
+    }
     
     
-    
-    this.onMouseStop = function(latitude, longitude, entities) {
+    function onMouseStop(latitude, longitude, entities) {
         if (entities.hasOwnProperty(DATASET_COUNTRIES)) {
             var entity = entities[DATASET_COUNTRIES];
             var name   = entity.properties.name;
@@ -75,9 +75,8 @@ var SpheroidViscountStrategy = function() {
                 loadFromFlickr("image_rotator", name, 12);
             }
         }
-    };
-    this.onMouseStop.lastTag = "";
-    
+    }
+    onMouseStop.lastTag = "";
     
     
     /**
@@ -174,5 +173,11 @@ var SpheroidViscountStrategy = function() {
         xmlhttp.send();
     }
     
+    
+    return {
+        onPageLoad: onPageLoad,
+        onCesiumInstanceCreate: onCesiumInstanceCreate,
+        onMouseStop: onMouseStop
+    };
     
 };
